@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="@dimen/rn_edit_text_inset"
+    android:insetRight="@dimen/rn_edit_text_inset"
+    android:insetTop="@dimen/rn_edit_text_inset"
+    android:insetBottom="@dimen/rn_edit_text_inset">
+    <shape android:shape="rectangle">
+        <corners android:radius="@dimen/rn_edit_text_corner_radius" />
+        <solid android:color="@android:color/transparent" />
+        <stroke android:width="1dp" android:color="@color/rn_edit_text_border" />
+    </shape>
+</inset>

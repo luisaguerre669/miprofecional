@@ -1,0 +1,452 @@
+// Mock Data for MiProfesional Mobile App
+
+import { CATEGORIES_IMAGES, PLACEHOLDER_IMAGES } from '../constants/assets';
+
+// Mock Professionals Data
+export const mockProfessionals = [
+  {
+    id: '1',
+    name: 'Carlos Rodríguez',
+    profession: 'Electricista',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.8,
+    reviewCount: 127,
+    description: 'Electricista certificado con 10 años de experiencia en instalaciones residenciales y comerciales.',
+    location: 'Buenos Aires, Argentina',
+    phone: '+54 11 1234-5678',
+    email: 'carlos.electricista@miprofesional.com',
+    services: ['Instalaciones eléctricas', 'Reparaciones', 'Mantenimiento preventivo'],
+    availability: true,
+    responseTime: '30 min',
+    hourlyRate: 2500,
+    categoryId: '7',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-01-15T10:00:00Z',
+  },
+  {
+    id: '2',
+    name: 'María González',
+    profession: 'Plomero',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.9,
+    reviewCount: 89,
+    description: 'Plomera especializada en reparaciones urgentes e instalaciones completas.',
+    location: 'Córdoba, Argentina',
+    phone: '+54 351 2345-6789',
+    email: 'maria.plomera@miprofesional.com',
+    services: ['Reparaciones de cañerías', 'Instalaciones sanitarias', 'Destapaciones'],
+    availability: true,
+    responseTime: '45 min',
+    hourlyRate: 2200,
+    categoryId: '2',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-02-20T14:30:00Z',
+  },
+  {
+    id: '3',
+    name: 'Ana Martínez',
+    profession: 'Esteticista',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.7,
+    reviewCount: 156,
+    description: 'Esteticista profesional especializada en tratamientos faciales y corporales.',
+    location: 'Rosario, Argentina',
+    phone: '+54 341 3456-7890',
+    email: 'ana.estetica@miprofesional.com',
+    services: ['Limpieza facial', 'Masajes relajantes', 'Tratamientos anti-age'],
+    availability: false,
+    responseTime: '2 horas',
+    hourlyRate: 1800,
+    categoryId: '3',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-03-10T09:15:00Z',
+  },
+  {
+    id: '4',
+    name: 'Diego Silva',
+    profession: 'Jardinero',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.6,
+    reviewCount: 67,
+    description: 'Jardinero paisajista con experiencia en diseño y mantenimiento de jardines.',
+    location: 'Mendoza, Argentina',
+    phone: '+54 261 4567-8901',
+    email: 'diego.jardinero@miprofesional.com',
+    services: ['Diseño de jardines', 'Mantenimiento', 'Poda de árboles'],
+    availability: true,
+    responseTime: '1 hora',
+    hourlyRate: 1500,
+    categoryId: '5',
+    isVerified: false,
+    isFavorite: false,
+    createdAt: '2024-01-25T16:45:00Z',
+  },
+  {
+    id: '5',
+    name: 'Laura Pérez',
+    profession: 'Limpieza',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.5,
+    reviewCount: 203,
+    description: 'Servicios de limpieza profesional para hogares y oficinas.',
+    location: 'La Plata, Argentina',
+    phone: '+54 221 5678-9012',
+    email: 'laura.limpieza@miprofesional.com',
+    services: ['Limpieza de hogares', 'Limpieza de oficinas', 'Limpieza post-obra'],
+    availability: true,
+    responseTime: '1 hora',
+    hourlyRate: 1200,
+    categoryId: '6',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-02-15T11:20:00Z',
+  },
+  {
+    id: '6',
+    name: 'Roberto López',
+    profession: 'Cerrajero',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.9,
+    reviewCount: 94,
+    description: 'Cerrajero experto en apertura de cerraduras y sistemas de seguridad.',
+    location: 'Mar del Plata, Argentina',
+    phone: '+54 223 6789-0123',
+    email: 'roberto.cerrajero@miprofesional.com',
+    services: ['Apertura de cerraduras', 'Instalación de sistemas de seguridad', 'Reparación de cerraduras'],
+    availability: true,
+    responseTime: '20 min',
+    hourlyRate: 2800,
+    categoryId: '8',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-03-05T13:10:00Z',
+  },
+  {
+    id: '7',
+    name: 'Sofía Ramírez',
+    profession: 'Pintora',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.7,
+    reviewCount: 112,
+    description: 'Pintora profesional especializada en interiores y exteriores.',
+    location: 'Salta, Argentina',
+    phone: '+54 387 7890-1234',
+    email: 'sofia.pintora@miprofesional.com',
+    services: ['Pintura de interiores', 'Pintura de exteriores', 'Preparación de superficies'],
+    availability: true,
+    responseTime: '2 horas',
+    hourlyRate: 1600,
+    categoryId: '9',
+    isVerified: false,
+    isFavorite: false,
+    createdAt: '2024-01-30T10:30:00Z',
+  },
+  {
+    id: '8',
+    name: 'Miguel Ángel Torres',
+    profession: 'Mecánico',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.8,
+    reviewCount: 178,
+    description: 'Mecánico automotriz especializado en reparaciones y mantenimiento.',
+    location: 'Neuquén, Argentina',
+    phone: '+54 299 8901-2345',
+    email: 'miguel.mecanico@miprofesional.com',
+    services: ['Reparación de motores', 'Cambio de aceite', 'Diagnóstico computarizado'],
+    availability: true,
+    responseTime: '1 hora',
+    hourlyRate: 2000,
+    categoryId: '10',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-02-25T15:45:00Z',
+  },
+  {
+    id: '9',
+    name: 'Patricia Morales',
+    profession: 'Veterinaria',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.9,
+    reviewCount: 234,
+    description: 'Veterinaria con experiencia en atención de mascotas pequeñas y grandes.',
+    location: 'San Juan, Argentina',
+    phone: '+54 264 9012-3456',
+    email: 'patricia.veterinaria@miprofesional.com',
+    services: ['Consultas generales', 'Vacunación', 'Cirugías menores'],
+    availability: false,
+    responseTime: '3 horas',
+    hourlyRate: 3000,
+    categoryId: '4',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-03-15T12:00:00Z',
+  },
+  {
+    id: '10',
+    name: 'Jorge Fernández',
+    profession: 'Constructor',
+    avatar: PLACEHOLDER_IMAGES.avatar,
+    rating: 4.6,
+    reviewCount: 145,
+    description: 'Constructor con experiencia en obras residenciales y comerciales.',
+    location: 'Tucumán, Argentina',
+    phone: '+54 381 0123-4567',
+    email: 'jorge.constructor@miprofesional.com',
+    services: ['Construcción de viviendas', 'Remodelaciones', 'Dirección de obra'],
+    availability: true,
+    responseTime: '4 horas',
+    hourlyRate: 3500,
+    categoryId: '1',
+    isVerified: true,
+    isFavorite: false,
+    createdAt: '2024-01-20T08:30:00Z',
+  },
+];
+
+// Mock Services Data
+export const mockServices = [
+  {
+    id: '1',
+    title: 'Instalación eléctrica completa',
+    description: 'Instalación completa de sistema eléctrico para viviendas nuevas',
+    duration: '4-6 horas',
+    price: 15000,
+    category: 'Electricista',
+    professionalId: '1',
+    image: PLACEHOLDER_IMAGES.service,
+    isAvailable: true,
+    rating: 4.8,
+    bookingCount: 45,
+  },
+  {
+    id: '2',
+    title: 'Reparación de cañerías',
+    description: 'Reparación de fugas y obstrucciones en cañerías',
+    duration: '2-3 horas',
+    price: 8000,
+    category: 'Plomero',
+    professionalId: '2',
+    image: PLACEHOLDER_IMAGES.service,
+    isAvailable: true,
+    rating: 4.9,
+    bookingCount: 67,
+  },
+  {
+    id: '3',
+    title: 'Limpieza facial profunda',
+    description: 'Tratamiento de limpieza facial con productos profesionales',
+    duration: '1 hora',
+    price: 3500,
+    category: 'Esteticista',
+    professionalId: '3',
+    image: PLACEHOLDER_IMAGES.service,
+    isAvailable: false,
+    rating: 4.7,
+    bookingCount: 89,
+  },
+  {
+    id: '4',
+    title: 'Diseño de jardín',
+    description: 'Diseño completo de jardín incluyendo plantas y decoración',
+    duration: '3-4 horas',
+    price: 12000,
+    category: 'Jardinero',
+    professionalId: '4',
+    image: PLACEHOLDER_IMAGES.service,
+    isAvailable: true,
+    rating: 4.6,
+    bookingCount: 23,
+  },
+  {
+    id: '5',
+    title: 'Limpieza de hogar completa',
+    description: 'Limpieza profunda de todas las áreas del hogar',
+    duration: '4-5 horas',
+    price: 6000,
+    category: 'Limpieza',
+    professionalId: '5',
+    image: PLACEHOLDER_IMAGES.service,
+    isAvailable: true,
+    rating: 4.5,
+    bookingCount: 156,
+  },
+];
+
+// Mock Bookings Data
+export const mockBookings = [
+  {
+    id: '1',
+    userId: '1',
+    professionalId: '1',
+    professionalName: 'Carlos Rodríguez',
+    serviceTitle: 'Instalación eléctrica completa',
+    date: '2024-04-25',
+    time: '10:00',
+    duration: '4 horas',
+    price: 15000,
+    status: 'confirmed' as const,
+    location: 'Av. Corrientes 1234, Buenos Aires',
+    notes: 'Necesito instalar tomacorrientes en toda la casa',
+    createdAt: '2024-04-20T14:30:00Z',
+  },
+  {
+    id: '2',
+    userId: '1',
+    professionalId: '2',
+    professionalName: 'María González',
+    serviceTitle: 'Reparación de cañerías',
+    date: '2024-04-26',
+    time: '14:00',
+    duration: '2 horas',
+    price: 8000,
+    status: 'pending' as const,
+    location: 'Calle 25 de Mayo 567, Córdoba',
+    notes: 'Fuga en la cañería de la cocina',
+    createdAt: '2024-04-21T09:15:00Z',
+  },
+  {
+    id: '3',
+    userId: '1',
+    professionalId: '3',
+    professionalName: 'Ana Martínez',
+    serviceTitle: 'Limpieza facial profunda',
+    date: '2024-04-24',
+    time: '16:00',
+    duration: '1 hora',
+    price: 3500,
+    status: 'completed' as const,
+    location: 'Salón de belleza Centro, Rosario',
+    notes: 'Tratamiento para piel sensible',
+    createdAt: '2024-04-18T11:20:00Z',
+  },
+];
+
+// Mock Reviews Data
+export const mockReviews = [
+  {
+    id: '1',
+    professionalId: '1',
+    userName: 'Juan Pérez',
+    rating: 5,
+    comment: 'Excelente trabajo, muy profesional y puntual. Lo recomiendo totalmente.',
+    date: '2024-04-15',
+    helpfulCount: 12,
+    verified: true,
+  },
+  {
+    id: '2',
+    professionalId: '1',
+    userName: 'María García',
+    rating: 4,
+    comment: 'Buen trabajo, aunque tardó un poco más de lo esperado. Calidad excelente.',
+    date: '2024-04-10',
+    helpfulCount: 8,
+    verified: true,
+  },
+  {
+    id: '3',
+    professionalId: '2',
+    userName: 'Roberto Silva',
+    rating: 5,
+    comment: 'Solucionó mi problema de inmediato. Muy eficiente y amable.',
+    date: '2024-04-18',
+    helpfulCount: 15,
+    verified: true,
+  },
+];
+
+// Mock Emergency Contacts
+export const mockEmergencyContacts = [
+  {
+    id: '1',
+    name: 'Electricista de Urgencia 24h',
+    phone: '+54 11 5555-1234',
+    description: 'Servicio de electricista disponible 24 horas',
+    category: 'Electricista',
+    responseTime: '30 min',
+    isAvailable: true,
+  },
+  {
+    id: '2',
+    name: 'Plomero Emergencia',
+    phone: '+54 11 5555-5678',
+    description: 'Reparaciones de plomería urgentes',
+    category: 'Plomero',
+    responseTime: '45 min',
+    isAvailable: true,
+  },
+  {
+    id: '3',
+    name: 'Cerrajero Urgente',
+    phone: '+54 11 5555-9012',
+    description: 'Apertura de cerraduras de emergencia',
+    category: 'Cerrajero',
+    responseTime: '20 min',
+    isAvailable: true,
+  },
+];
+
+// Mock User Data
+export const mockUser = {
+  id: '1',
+  name: 'Usuario Demo',
+  email: 'demo@miprofesional.com',
+  phone: '+54 11 1234-5678',
+  avatar: PLACEHOLDER_IMAGES.avatar,
+  location: 'Buenos Aires, Argentina',
+  preferences: {
+    notifications: true,
+    emailAlerts: true,
+    language: 'es',
+    currency: 'ARS',
+  },
+  membership: {
+    type: 'premium',
+    expiresAt: '2024-12-31',
+    benefits: ['Descuentos exclusivos', 'Soporte prioritario', 'Sin comisiones'],
+  },
+  stats: {
+    totalBookings: 23,
+    totalSpent: 125000,
+    favoriteProfessionals: 8,
+    reviewsGiven: 15,
+  },
+};
+
+// Helper functions for mock data
+export const getProfessionalById = (id: string) => {
+  return mockProfessionals.find(p => p.id === id);
+};
+
+export const getProfessionalsByCategory = (categoryId: string) => {
+  return mockProfessionals.filter(p => p.categoryId === categoryId);
+};
+
+export const searchProfessionals = (query: string) => {
+  const lowerQuery = query.toLowerCase();
+  return mockProfessionals.filter(p => 
+    p.name.toLowerCase().includes(lowerQuery) ||
+    p.profession.toLowerCase().includes(lowerQuery) ||
+    p.description.toLowerCase().includes(lowerQuery) ||
+    p.services.some(s => s.toLowerCase().includes(lowerQuery))
+  );
+};
+
+export const getServicesByProfessional = (professionalId: string) => {
+  return mockServices.filter(s => s.professionalId === professionalId);
+};
+
+export const getBookingsByUser = (userId: string) => {
+  return mockBookings.filter(b => b.userId === userId);
+};
+
+export const getReviewsByProfessional = (professionalId: string) => {
+  return mockReviews.filter(r => r.professionalId === professionalId);
+};
+
+export const getFavoritesByUser = (userId: string) => {
+  return mockProfessionals.filter(p => p.isFavorite);
+};

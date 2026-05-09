@@ -1,0 +1,76 @@
+.banner-carousel {
+  position: relative;
+  width: 100%;
+  height: 300px; /* Taller for better photos */
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: 40px 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.banner-slide {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  padding: 40px;
+  text-align: center;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.banner-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.banner-slide h3 {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+  max-width: 80%;
+}
+
+.banner-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 2;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.dot.active {
+  background: white;
+  width: 24px;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .banner-carousel {
+    height: 200px;
+  }
+  .banner-slide h3 {
+    font-size: 1.5rem;
+  }
+}

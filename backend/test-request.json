@@ -1,0 +1,9 @@
+{
+  "nombre": "Juan Pérez García",
+  "email": "juan.perez@test.com",
+  "telefono": "+54 11 1234-5678",
+  "profesion": "Plomero Matriculado",
+  "categoria": "plomeria",
+  "experiencia": "5",
+  "precio_hora": "800"
+}

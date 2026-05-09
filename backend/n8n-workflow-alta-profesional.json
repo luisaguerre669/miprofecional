@@ -1,0 +1,398 @@
+{
+  "name": "MiProfesional - Alta Automática de Profesional con IA",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "profesional-alta",
+        "options": {}
+      },
+      "id": "webhook-1",
+      "name": "Webhook - Nuevo Profesional",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "profesional-alta-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.nombre }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists"
+              }
+            },
+            {
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists"
+              }
+            },
+            {
+              "leftValue": "={{ $json.categoria }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-1",
+      "name": "Validación Básica",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validación y limpieza de datos del profesional\nconst profesional = $input.first().json;\n\n// Función de validación con IA simulada\nfunction validarConIA(datos) {\n  const validaciones = {\n    nombre: datos.nombre && datos.nombre.length >= 3,\n    email: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(datos.email),\n    telefono: /^\\d{10,15}$/.test(datos.telefono.replace(/\\D/g, '')),\n    categoria: ['plomeria', 'electricidad', 'construccion', 'pintura', 'jardineria', 'limpieza', 'mecanica', 'otros'].includes(datos.categoria.toLowerCase()),\n    experiencia: !datos.experiencia || datos.experiencia >= 0,\n    precio: !datos.precio_hora || datos.precio_hora > 0\n  };\n  \n  const esValido = Object.values(validaciones).every(v => v === true);\n  const errores = Object.entries(validaciones)\n    .filter(([campo, valido]) => !valido)\n    .map(([campo]) => campo);\n  \n  return { esValido, errores, validaciones };\n}\n\n// Limpieza de datos\nfunction limpiarDatos(datos) {\n  return {\n    nombre: datos.nombre.trim().replace(/\\s+/g, ' '),\n    email: datos.email.toLowerCase().trim(),\n    telefono: datos.telefono.replace(/\\D/g, ''),\n    categoria: datos.categoria.toLowerCase().trim(),\n    experiencia: parseInt(datos.experiencia) || 0,\n    precio_hora: parseFloat(datos.precio_hora) || 0,\n    descripcion: datos.descripcion ? datos.descripcion.trim() : '',\n    disponibilidad: datos.disponibilidad || 'flexible',\n    ubicacion: datos.ubicacion ? datos.ubicacion.trim() : '',\n    certificaciones: datos.certificaciones || [],\n    idiomas: datos.idiomas || ['español']\n  };\n}\n\n// Asistencia inteligente para completar datos\nfunction asistenciaInteligente(datos) {\n  const sugerencias = {};\n  \n  // Sugerir precio basado en categoría y experiencia\n  if (!datos.precio_hora || datos.precio_hora === 0) {\n    const preciosBase = {\n      'plomeria': 800,\n      'electricidad': 1000,\n      'construccion': 1200,\n      'pintura': 600,\n      'jardineria': 500,\n      'limpieza': 400,\n      'mecanica': 900,\n      'otros': 700\n    };\n    \n    const base = preciosBase[datos.categoria] || 700;\n    const experienciaBonus = datos.experiencia * 50;\n    sugerencias.precio_hora_sugerido = base + experienciaBonus;\n  }\n  \n  // Sugerir descripción basada en categoría\n  if (!datos.descripcion || datos.descripcion.length < 20) {\n    const descripciones = {\n      'plomeria': 'Profesional especializado en instalaciones, reparaciones y mantenimiento de sistemas de plomería residenciales y comerciales.',\n      'electricidad': 'Técnico certificado en instalaciones eléctricas, reparaciones y mantenimiento de sistemas residenciales y comerciales.',\n      'construccion': 'Experto en construcción y remodelación, con experiencia en proyectos residenciales y comerciales.',\n      'pintura': 'Profesional especializado en pintura interior y exterior, preparación de superficies y acabados de calidad.',\n      'jardineria': 'Especialista en diseño y mantenimiento de jardines, poda de árboles y cuidado de áreas verdes.',\n      'limpieza': 'Servicios de limpieza profesional para hogares y oficinas, con productos ecológicos y equipo especializado.',\n      'mecanica': 'Mecánico automotriz certificado, especializado en diagnóstico, reparación y mantenimiento de vehículos.',\n      'otros': 'Profesional con experiencia en servicios especializados, comprometido con la calidad y satisfacción del cliente.'\n    };\n    \n    sugerencias.descripcion_sugerida = descripciones[datos.categoria] || descripciones.otros;\n  }\n  \n  // Sugerir certificaciones basadas en categoría\n  const certificacionesSugeridas = {\n    'electricidad': ['Certificado de Electricista', 'Seguridad Eléctrica'],\n    'plomeria': ['Certificado de Plomero', 'Instalaciones Sanitarias'],\n    'construccion': ['Licencia de Constructor', 'Seguridad en Construcción'],\n    'mecanica': ['Certificado ASE', 'Diagnóstico Automotriz']\n  };\n  \n  if (certificacionesSugeridas[datos.categoria] && (!datos.certificaciones || datos.certificaciones.length === 0)) {\n    sugerencias.certificaciones_sugeridas = certificacionesSugeridas[datos.categoria];\n  }\n  \n  return sugerencias;\n}\n\n// Procesamiento principal\nconst datosLimpios = limpiarDatos(profesional);\nconst validacion = validarConIA(datosLimpios);\nconst sugerencias = asistenciaInteligente(datosLimpios);\n\n// Preparar objeto final\nconst profesionalProcesado = {\n  ...datosLimpios,\n  validacion,\n  sugerencias,\n  fecha_registro: new Date().toISOString(),\n  status: validacion.esValido ? 'pendiente_aprobacion' : 'requiere_correccion',\n  score_calidad: calcularScoreCalidad(datosLimpios, validacion)\n};\n\nfunction calcularScoreCalidad(datos, validacion) {\n  let score = 0;\n  \n  // Puntos por datos completos\n  if (datos.descripcion && datos.descripcion.length > 50) score += 20;\n  if (datos.experiencia > 5) score += 15;\n  if (datos.precio_hora > 0) score += 10;\n  if (datos.ubicacion) score += 10;\n  if (datos.certificaciones && datos.certificaciones.length > 0) score += 15;\n  if (datos.idiomas && datos.idiomas.length > 1) score += 10;\n  \n  // Puntos por validación\n  if (validacion.esValido) score += 20;\n  \n  return Math.min(score, 100);\n}\n\nreturn { json: profesionalProcesado };"
+      },
+      "id": "code-1",
+      "name": "IA - Validación y Asistencia",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.validacion.esValido }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-2",
+      "name": "¿Es Válido?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "database": "miprofesional",
+        "collection": "professionals",
+        "fields": "={{ $json }}",
+        "options": {}
+      },
+      "id": "mongodb-1",
+      "name": "MongoDB - Guardar Profesional",
+      "type": "n8n-nodes-base.mongodb",
+      "typeVersion": 1,
+      "position": [1120, 200],
+      "credentials": {
+        "mongoDb": {
+          "id": "mongodb-atlas-credentials",
+          "name": "MongoDB Atlas MiProfesional"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "find",
+        "database": "miprofesional",
+        "collection": "professionals",
+        "query": "{ \"email\": \"{{ $json.email }}\" }",
+        "options": {}
+      },
+      "id": "mongodb-2",
+      "name": "MongoDB - Verificar Duplicado",
+      "type": "n8n-nodes-base.mongodb",
+      "typeVersion": 1,
+      "position": [680, 500],
+      "credentials": {
+        "mongoDb": {
+          "id": "mongodb-atlas-credentials",
+          "name": "MongoDB Atlas MiProfesional"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "if-3",
+      "name": "¿No Existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 500]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@miprofesional.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "✅ Tu registro en MiProfesional ha sido recibido",
+        "text": "¡Hola {{ $json.nombre }}!\\n\\nTu registro como profesional en MiProfesional ha sido recibido exitosamente.\\n\\n📋 Estado: {{ $json.status }}\\n📊 Score de Calidad: {{ $json.score_calidad }}/100\\n\\n{{#if $json.sugerencias.descripcion_sugerida}}💡 Sugerencia de descripción:\\n{{ $json.sugerencias.descripcion_sugerida }}\\n\\n{{/if}}{{#if $json.sugerencias.precio_hora_sugerido}}💡 Precio por hora sugerido: ${{ $json.sugerencias.precio_hora_sugerido }}\\n\\n{{/if}}Nos pondremos en contacto contigo pronto para completar el proceso de verificación.\\n\\n¡Gracias por unirte a MiProfesional!\\n\\nEl equipo de MiProfesional",
+        "options": {}
+      },
+      "id": "email-1",
+      "name": "Email - Confirmación al Profesional",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [1340, 200],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "Email Service MiProfesional"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@miprofesional.com",
+        "toEmail": "admin@miprofesional.com",
+        "subject": "🆕 Nuevo Profesional Registrado - {{ $json.nombre }}",
+        "text": "Se ha registrado un nuevo profesional en MiProfesional:\\n\\n👤 Nombre: {{ $json.nombre }}\\n📧 Email: {{ $json.email }}\\n📱 Teléfono: {{ $json.telefono }}\\n🔧 Categoría: {{ $json.categoria }}\\n📊 Score de Calidad: {{ $json.score_calidad }}/100\\n📋 Estado: {{ $json.status }}\\n\\n{{#if $json.validacion.errores.length}}⚠️ Errores de validación:\\n{{ $json.validacion.errores.join(', ') }}\\n\\n{{/if}}Revisar y aprobar manualmente si es necesario.\\n\\n🔗 Ver detalles en el panel de administración.",
+        "options": {}
+      },
+      "id": "email-2",
+      "name": "Email - Notificación Admin",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [1340, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "Email Service MiProfesional"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"success\": true, \"message\": \"Profesional registrado exitosamente\", \"profesional_id\": \"{{ $json._id }}\", \"status\": \"{{ $json.status }}\", \"score_calidad\": {{ $json.score_calidad }} }",
+        "options": {}
+      },
+      "id": "webhook-response-1",
+      "name": "Respuesta Webhook - Éxito",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [1560, 250]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"success\": false, \"message\": \"El profesional ya existe con este email\", \"errors\": [\"email_duplicado\"] }",
+        "options": {}
+      },
+      "id": "webhook-response-2",
+      "name": "Respuesta Webhook - Duplicado",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [1120, 600]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"success\": false, \"message\": \"Datos inválidos\", \"errors\": {{ $json.validacion.errores }}, \"sugerencias\": {{ $json.sugerencias }} }",
+        "options": {}
+      },
+      "id": "webhook-response-3",
+      "name": "Respuesta Webhook - Inválido",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [1120, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log de errores para debugging\nconst errorData = {\n  timestamp: new Date().toISOString(),\n  error_type: 'datos_invalidos',\n  datos_recibidos: $input.first().json,\n  validacion: $input.first().json.validacion,\n  ip_address: $input.first().json.ip || 'unknown'\n};\n\nconsole.error('Error en validación de profesional:', JSON.stringify(errorData, null, 2));\n\nreturn { json: errorData };"
+      },
+      "id": "code-2",
+      "name": "Log de Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 400]
+    }
+  ],
+  "connections": {
+    "Webhook - Nuevo Profesional": {
+      "main": [
+        [
+          {
+            "node": "Validación Básica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validación Básica": {
+      "main": [
+        [
+          {
+            "node": "IA - Validación y Asistencia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA - Validación y Asistencia": {
+      "main": [
+        [
+          {
+            "node": "MongoDB - Verificar Duplicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB - Verificar Duplicado": {
+      "main": [
+        [
+          {
+            "node": "¿No Existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿No Existe?": {
+      "main": [
+        [
+          {
+            "node": "¿Es Válido?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Webhook - Duplicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Es Válido?": {
+      "main": [
+        [
+          {
+            "node": "MongoDB - Guardar Profesional",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log de Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB - Guardar Profesional": {
+      "main": [
+        [
+          {
+            "node": "Email - Confirmación al Profesional",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email - Notificación Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email - Confirmación al Profesional": {
+      "main": [
+        [
+          {
+            "node": "Respuesta Webhook - Éxito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email - Notificación Admin": {
+      "main": [
+        [
+          {
+            "node": "Respuesta Webhook - Éxito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log de Error": {
+      "main": [
+        [
+          {
+            "node": "Respuesta Webhook - Inválido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-05-04T00:00:00.000Z",
+  "updatedAt": "2026-05-04T00:00:00.000Z",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2026-05-04T00:00:00.000Z",
+      "updatedAt": "2026-05-04T00:00:00.000Z",
+      "id": "tag-miprofesional",
+      "name": "MiProfesional"
+    }
+  ],
+  "triggerCount": 1,
+  "active": true
+}

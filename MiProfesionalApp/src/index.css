@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Premium Dark/Light Theme Palette (Uber Style, Matched to Logo & JSON) */
+  --color-primary: #323A45; /* Dark Slate Gray */
+  --color-secondary: #28a745; /* Green (as requested in JSON) */
+  --color-accent: #0E8ECB; /* Cyan Blue */
+  --color-accent-hover: #0B73A6;
+  --color-warning: #F5A623; /* Orange/Yellow */
+  --color-emergency: #d32f2f; /* Red */
+  --color-background: #F8F9FA; 
+  --color-surface: #FFFFFF; 
+  --color-text-main: #1A1A1A;
+  --color-text-muted: #6C757D;
+  --color-border: #E9ECEF;
+  
+  /* Soft Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 10px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+  --shadow-hover: 0 15px 35px rgba(0,0,0,0.12);
+  
+  /* Rounded Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-muted);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Base Styles */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 3D Text Typography for Premium Look */
+.text-3d {
+  color: var(--color-surface);
+  text-shadow: 
+    0 1px 0 #cccccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15);
+}
+
+.text-3d-dark {
+  color: var(--color-primary);
+  text-shadow: 
+    0 1px 0 var(--color-secondary),
+    0 2px 0 var(--color-secondary),
+    0 3px 0 #3b4451,
+    0 4px 0 #343c48,
+    0 5px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2);
+}
+
+/* Neon Text Effects */
+.text-neon {
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px var(--color-accent),
+    0 0 40px var(--color-accent),
+    0 0 80px var(--color-accent);
+}
+
+.text-neon-red {
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #ff1744,
+    0 0 40px #d32f2f,
+    0 0 80px #b71c1c;
+}

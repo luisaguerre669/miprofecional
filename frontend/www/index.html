@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiProfesional - Conectamos Personas con Profesionales</title>
+    <meta name="description" content="Plataforma líder para encontrar profesionales calificados en toda Argentina. Diseño moderno y tecnología 3D.">
+    <meta name="keywords" content="profesionales, argentina, servicios, construcción, plomería, electricidad, belleza">
+    <meta name="author" content="MiProfesional">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MiProfesional - Diseño 3D Moderno">
+    <meta property="og:description" content="Conectamos personas con profesionales - Plataforma moderna">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miprofesional.com">
+    <meta property="og:image" content="/assets/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* Modern 3D Typography */
+        .text-3d-modern {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 
+                0 1px 0 #ccc,
+                0 2px 0 #c9c9c9,
+                0 3px 0 #bbb,
+                0 4px 0 #b9b9b9,
+                0 5px 0 #aaa,
+                0 6px 1px rgba(0,0,0,.1),
+                0 0 5px rgba(0,0,0,.1),
+                0 1px 3px rgba(0,0,0,.3),
+                0 3px 5px rgba(0,0,0,.2),
+                0 5px 10px rgba(0,0,0,.25),
+                0 10px 10px rgba(0,0,0,.2),
+                0 20px 20px rgba(0,0,0,.15);
+            transform: perspective(500px) rotateX(15deg);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: perspective(500px) rotateX(15deg) translateY(0px); }
+            50% { transform: perspective(500px) rotateX(15deg) translateY(-20px); }
+        }
+        
+        /* Modern Logo 3D */
+        .logo-3d-modern {
+            display: inline-block;
+            padding: 30px 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            box-shadow: 
+                0 15px 35px rgba(102, 126, 234, 0.4),
+                0 5px 15px rgba(118, 75, 162, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: perspective(1000px) rotateX(20deg) rotateY(-10deg);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-3d-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .logo-3d-modern:hover::before {
+            left: 100%;
+        }
+        
+        .logo-3d-modern:hover {
+            transform: perspective(1000px) rotateX(10deg) rotateY(5deg) translateY(-5px);
+            box-shadow: 
+                0 20px 40px rgba(102, 126, 234, 0.5),
+                0 10px 20px rgba(118, 75, 162, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Modern Search Bar */
+        .search-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 100px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(102, 126, 234, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .search-modern:focus {
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 15px 30px rgba(102, 126, 234, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        /* Modern Cards */
+        .card-modern {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 24px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.08),
+                0 5px 15px rgba(102, 126, 234, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .card-modern:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 10px 25px rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.2);
+        }
+        
+        /* Modern Hero Background */
+        .hero-modern {
+            background: 
+                linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%),
+                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(245, 87, 108, 0.2) 0%, transparent 50%);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Modern Stats */
+        .stat-modern {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .stat-modern:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Modern Badge */
+        .badge-modern {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .badge-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Modern Header */
+        .header-modern {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .text-3d-modern {
+                font-size: 2.5rem !important;
+            }
+            
+            .logo-3d-modern {
+                padding: 20px 40px;
+            }
+        }
+    </style>
+</head>
+        
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary-color), #2563eb);
+        }
+        
+        .gradient-secondary {
+            background: linear-gradient(135deg, var(--secondary-color), #059669);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .professional-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .professional-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .loading-spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-primary {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-warning {
+            background: #fed7aa;
+            color: #92400e;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem !important;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+            }
+            
+            .professional-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Header -->
+    <header class="header-modern sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-hammer text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent">MiProfesional</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#categories" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium">Categorías</a>
+                    <a href="#professionals" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium">Servicios</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium">Sobre Nosotros</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium">Contacto</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button onclick="showLoginModal()" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium">
+                        <i class="fas fa-user mr-2"></i>Iniciar Sesión
+                    </button>
+                    <button onclick="showRegisterModal()" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        Registrarse
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#categories" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 py-2 font-medium">Categorías</a>
+                    <a href="#professionals" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 py-2 font-medium">Servicios</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 py-2 font-medium">Sobre Nosotros</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-all duration-300 py-2 font-medium">Contacto</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Modern Hero Section -->
+    <section class="hero-modern text-white py-32">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto text-center">
+                <!-- Logo 3D Moderno -->
+                <div class="mb-12">
+                    <div class="logo-3d-modern">
+                        <h1 class="text-5xl md:text-7xl font-black text-white mb-2" style="
+                            letter-spacing: 4px;
+                            text-shadow: 
+                                0 1px 0 #ccc,
+                                0 2px 0 #c9c9c9,
+                                0 3px 0 #bbb,
+                                0 4px 0 #b9b9b9,
+                                0 5px 0 #aaa,
+                                0 6px 1px rgba(0,0,0,.1),
+                                0 0 5px rgba(0,0,0,.1),
+                                0 1px 3px rgba(0,0,0,.3),
+                                0 3px 5px rgba(0,0,0,.2),
+                                0 5px 10px rgba(0,0,0,.25),
+                                0 10px 10px rgba(0,0,0,.2),
+                                0 20px 20px rgba(0,0,0,.15);
+                        ">
+                            Mi Profesional
+                        </h1>
+                    </div>
+                </div>
+                
+                <!-- Tagline 3D -->
+                <h2 class="text-3d-modern text-4xl md:text-6xl mb-8">
+                    CONECTAMOS PERSONAS CON PROFESIONALES
+                </h2>
+                
+                <p class="text-xl md:text-2xl mb-12 opacity-90 max-w-4xl mx-auto font-light" style="
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                ">
+                    La plataforma más moderna y avanzada para conectar con los mejores profesionales calificados en toda Argentina
+                </p>
+                
+                <!-- Modern Search Bar -->
+                <div class="max-w-4xl mx-auto mb-16">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="searchInput"
+                            placeholder="Buscar profesionales, servicios o categorías..."
+                            class="search-modern w-full pl-20 pr-8 py-6 text-xl font-medium"
+                            onkeyup="handleSearch(event)"
+                        >
+                        <i class="fas fa-search absolute left-8 top-1/2 transform -translate-y-1/2 text-gray-400 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <!-- Modern Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div class="stat-modern p-8">
+                        <div class="text-5xl mb-4">
+                            <i class="fas fa-users" style="color: #fbbf24;"></i>
+                        </div>
+                        <div class="text-3xl font-black mb-2" style="color: white;">+1000</div>
+                        <div class="text-lg font-medium" style="color: rgba(255,255,255,0.9);">Profesionales Verificados</div>
+                    </div>
+                    <div class="stat-modern p-8">
+                        <div class="text-5xl mb-4">
+                            <i class="fas fa-briefcase" style="color: #34d399;"></i>
+                        </div>
+                        <div class="text-3xl font-black mb-2" style="color: white;">9</div>
+                        <div class="text-lg font-medium" style="color: rgba(255,255,255,0.9);">Categorías de Servicios</div>
+                    </div>
+                    <div class="stat-modern p-8">
+                        <div class="text-5xl mb-4">
+                            <i class="fas fa-map-marked-alt" style="color: #f87171;"></i>
+                        </div>
+                        <div class="text-3xl font-black mb-2" style="color: white;">AR</div>
+                        <div class="text-lg font-medium" style="color: rgba(255,255,255,0.9);">Cobertura Nacional</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modern Categories Section -->
+    <section id="categories" class="py-24 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-black mb-6" style="
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    letter-spacing: 2px;
+                ">Categorías de Servicios</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto font-medium">
+                    Encuentra el profesional perfecto para tus necesidades
+                </p>
+            </div>
+            
+            <div class="category-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Modern Category Cards -->
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('construccion')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop" alt="Construcción y Oficios" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Construcción y Oficios</h3>
+                            <p class="text-base opacity-90 font-medium">Albañiles, carpinteros, pintores</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('plomeria')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1584474637713-fdacf7f9a1fa?w=400&h=300&fit=crop" alt="Plomería y Electricidad" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Plomería y Electricidad</h3>
+                            <p class="text-base opacity-90 font-medium">Plomeros, electricistas</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('estetica')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560066984-911b9ac678b2?w=400&h=300&fit=crop" alt="Estética y Belleza" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Estética y Belleza</h3>
+                            <p class="text-base opacity-90 font-medium">Peluqueros, esteticistas</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('mascotas')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1601979032951-0b1f3c6d7b2c?w=400&h=300&fit=crop" alt="Mascotas y Veterinaria" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Mascotas y Veterinaria</h3>
+                            <p class="text-base opacity-90 font-medium">Veterinarios, cuidadores</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('jardineria')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1585323920552-3a2d0f0a0b1c?w=400&h=300&fit=crop" alt="Jardinería y Paisajismo" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Jardinería y Paisajismo</h3>
+                            <p class="text-base opacity-90 font-medium">Jardineros, paisajistas</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('limpieza')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1584474637713-fdacf7f9a1fa?w=400&h=300&fit=crop" alt="Limpieza y Mantenimiento" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Limpieza y Mantenimiento</h3>
+                            <p class="text-base opacity-90 font-medium">Personal de limpieza</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('tecnologia')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?w=400&h=300&fit=crop" alt="Tecnología y Reparaciones" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Tecnología y Reparaciones</h3>
+                            <p class="text-base opacity-90 font-medium">Técnicos, reparadores</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-modern group cursor-pointer" onclick="filterByCategory('educacion')">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop" alt="Educación y Tutorías" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h3 class="text-2xl font-black mb-2">Educación y Tutorías</h3>
+                            <p class="text-base opacity-90 font-medium">Profesores, tutores</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center">
+                            <span class="badge-modern">Servicios</span>
+                            <i class="fas fa-arrow-right text-indigo-500 text-2xl group-hover:translate-x-2 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="professionals" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Nuestros Servicios</h2>
+                <p class="text-gray-600 text-lg">Conecta con profesionales calificados en todas las áreas</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Búsqueda Rápida</h3>
+                    <p class="text-gray-600">Encuentra profesionales por categoría y ubicación</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Reservas Online</h3>
+                    <p class="text-gray-600">Agenda servicios directamente desde la plataforma</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Calificaciones</h3>
+                    <p class="text-gray-600">Verifica la reputación de cada profesional</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">¿Cómo Funciona?</h2>
+                <p class="text-gray-600 text-lg">Encuentra profesionales en 3 simples pasos</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-search text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">1. Busca</h3>
+                    <p class="text-gray-600">Encuentra el profesional que necesitas por categoría o ubicación</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-comments text-green-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">2. Contacta</h3>
+                    <p class="text-gray-600">Comunícate directamente con los profesionales</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-star text-purple-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">3. Califica</h3>
+                    <p class="text-gray-600">Deja tu reseña y ayuda a otros usuarios</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">¿Por Qué Elegir MiProfesional?</h2>
+                <p class="text-gray-600 text-lg">La mejor plataforma para encontrar profesionales en Argentina</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <i class="fas fa-shield-alt text-blue-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Profesionales Verificados</h3>
+                    <p class="text-gray-600">Todos nuestros profesionales pasan por un riguroso proceso de verificación</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <i class="fas fa-map-marker-alt text-green-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Cerca de Ti</h3>
+                    <p class="text-gray-600">Encuentra profesionales en tu zona con geolocalización precisa</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <i class="fas fa-star text-yellow-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Reseñas Reales</h3>
+                    <p class="text-gray-600">Lee las experiencias de otros usuarios antes de decidir</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <i class="fas fa-bolt text-purple-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Respuesta Rápida</h3>
+                    <p class="text-gray-600">Contacta directamente y recibe respuestas en minutos</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <i class="fas fa-dollar-sign text-green-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Precios Justos</h3>
+                    <p class="text-gray-600">Compara precios y elige la mejor opción para tu presupuesto</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <i class="fas fa-headset text-blue-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Soporte 24/7</h3>
+                    <p class="text-gray-600">Estamos aquí para ayudarte en cualquier momento</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-primary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                ¿Eres Profesional?
+            </h2>
+            <p class="text-xl mb-8 opacity-90">
+                Únete a nuestra comunidad y llega a miles de clientes en toda Argentina
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="showProfessionalRegisterModal()" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition">
+                    Registrarse como Profesional
+                </button>
+                <button onclick="showPricingModal()" class="border-2 border-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition">
+                    Ver Planes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-hammer text-white text-sm"></i>
+                        </div>
+                        <span class="text-lg font-bold">MiProfesional</span>
+                    </div>
+                    <p class="text-gray-400">
+                        La plataforma líder para encontrar profesionales calificados en Argentina.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#categories" class="hover:text-white transition">Categorías</a></li>
+                        <li><a href="#professionals" class="hover:text-white transition">Profesionales</a></li>
+                        <li><a href="#" onclick="showAboutModal()" class="hover:text-white transition">Sobre Nosotros</a></li>
+                        <li><a href="#" onclick="showContactModal()" class="hover:text-white transition">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Para Profesionales</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="showProfessionalRegisterModal()" class="hover:text-white transition">Registrarse</a></li>
+                        <li><a href="#" onclick="showPricingModal()" class="hover:text-white transition">Planes y Precios</a></li>
+                        <li><a href="#" onclick="showHelpModal()" class="hover:text-white transition">Ayuda</a></li>
+                        <li><a href="#" onclick="showFAQModal()" class="hover:text-white transition">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-envelope mr-2"></i> info@miprofesional.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +54 11 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Buenos Aires, Argentina</li>
+                    </ul>
+                    
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 MiProfesional. Todos los derechos reservados. Desarrollado por Luis Aguero.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Iniciar Sesión</h2>
+                <button onclick="closeModal('loginModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="loginEmail">
+                        Email
+                    </label>
+                    <input type="email" id="loginEmail" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="tu@email.com">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="loginPassword">
+                        Contraseña
+                    </label>
+                    <input type="password" id="loginPassword" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="********">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2">
+                        <span class="text-sm text-gray-600">Recordarme</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary mb-4">
+                    Iniciar Sesión
+                </button>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        ¿No tienes cuenta? 
+                        <a href="#" onclick="switchToRegister()" class="text-blue-500 hover:underline">Regístrate</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Registrarse</h2>
+                <button onclick="closeModal('registerModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Tipo de Usuario
+                    </label>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="userType" value="client" checked class="mr-2">
+                            <span>Cliente</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="userType" value="professional" class="mr-2">
+                            <span>Profesional</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="registerName">
+                        Nombre Completo
+                    </label>
+                    <input type="text" id="registerName" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="Juan Pérez">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="registerEmail">
+                        Email
+                    </label>
+                    <input type="email" id="registerEmail" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="tu@email.com">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="registerPassword">
+                        Contraseña
+                    </label>
+                    <input type="password" id="registerPassword" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="********">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="registerPhone">
+                        Teléfono
+                    </label>
+                    <input type="tel" id="registerPhone" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="+54 11 1234-5678">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" required class="mr-2">
+                        <span class="text-sm text-gray-600">
+                            Acepto los <a href="#" class="text-blue-500 hover:underline">términos y condiciones</a>
+                        </span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary mb-4">
+                    Registrarse
+                </button>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        ¿Ya tienes cuenta? 
+                        <a href="#" onclick="switchToLogin()" class="text-blue-500 hover:underline">Inicia sesión</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Professional Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Contactar Profesional</h2>
+                <button onclick="closeModal('contactModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="professionalInfo" class="mb-6">
+                <!-- Professional info will be loaded here -->
+            </div>
+            
+            <form id="contactForm" onsubmit="handleContact(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="contactName">
+                        Tu Nombre
+                    </label>
+                    <input type="text" id="contactName" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="Tu nombre">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="contactEmail">
+                        Tu Email
+                    </label>
+                    <input type="email" id="contactEmail" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="tu@email.com">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="contactPhone">
+                        Tu Teléfono
+                    </label>
+                    <input type="tel" id="contactPhone" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                           placeholder="+54 11 1234-5678">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="contactMessage">
+                        Mensaje
+                    </label>
+                    <textarea id="contactMessage" required rows="4"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                              placeholder="Describe el servicio que necesitas..."></textarea>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary">
+                    Enviar Mensaje
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mock data for professionals
+        const mockProfessionals = [
+            {
+                id: 1,
+                name: "Carlos Rodríguez",
+                profession: "Plomero",
+                category: "plomeria",
+                rating: 4.8,
+                reviews: 127,
+                location: "Capital Federal",
+                image: "https://picsum.photos/id/101/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 11 1234-5678",
+                email: "carlos.plomeria@email.com",
+                description: "Plomero con 10 años de experiencia. Especialista en instalaciones y reparaciones."
+            },
+            {
+                id: 2,
+                name: "María González",
+                profession: "Electricista",
+                category: "plomeria",
+                rating: 4.9,
+                reviews: 89,
+                location: "Buenos Aires",
+                image: "https://picsum.photos/id/102/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 11 2345-6789",
+                email: "maria.electricista@email.com",
+                description: "Electricista matriculada. Expertise en instalaciones residenciales y comerciales."
+            },
+            {
+                id: 3,
+                name: "Juan Martínez",
+                profession: "Albañil",
+                category: "construccion",
+                rating: 4.7,
+                reviews: 156,
+                location: "Córdoba",
+                image: "https://picsum.photos/id/103/200/200",
+                verified: true,
+                available: false,
+                phone: "+54 351 1234-5678",
+                email: "juan.albanil@email.com",
+                description: "Constructor con experiencia en obras residenciales y comerciales."
+            },
+            {
+                id: 4,
+                name: "Ana López",
+                profession: "Peluquera",
+                category: "estetica",
+                rating: 4.9,
+                reviews: 203,
+                location: "Rosario",
+                image: "https://picsum.photos/id/104/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 341 1234-5678",
+                email: "ana.peluqueria@email.com",
+                description: "Estilista profesional con especialización en cortes modernos y coloración."
+            },
+            {
+                id: 5,
+                name: "Roberto Silva",
+                profession: "Jardinero",
+                category: "jardineria",
+                rating: 4.6,
+                reviews: 67,
+                location: "Mendoza",
+                image: "https://picsum.photos/id/105/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 261 1234-5678",
+                email: "roberto.jardineria@email.com",
+                description: "Paisajista especializado en jardines residenciales y mantenimiento."
+            },
+            {
+                id: 6,
+                name: "Laura Fernández",
+                profession: "Veterinaria",
+                category: "mascotas",
+                rating: 4.9,
+                reviews: 178,
+                location: "La Plata",
+                image: "https://picsum.photos/id/106/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 221 1234-5678",
+                email: "laura.veterinaria@email.com",
+                description: "Veterinaria con atención especializada en mascotas pequeñas."
+            },
+            {
+                id: 7,
+                name: "Diego Morales",
+                profession: "Técnico",
+                category: "tecnologia",
+                rating: 4.8,
+                reviews: 92,
+                location: "Tucumán",
+                image: "https://picsum.photos/id/107/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 381 1234-5678",
+                email: "diego.tecnico@email.com",
+                description: "Técnico especializado en reparación de computadoras y celulares."
+            },
+            {
+                id: 8,
+                name: "Sofía Ramírez",
+                profession: "Profesora",
+                category: "educacion",
+                rating: 4.9,
+                reviews: 145,
+                location: "Mar del Plata",
+                image: "https://picsum.photos/id/108/200/200",
+                verified: true,
+                available: true,
+                phone: "+54 223 1234-5678",
+                email: "sofia.profesora@email.com",
+                description: "Profesora de matemáticas y física con experiencia en tutorías personalizadas."
+            }
+        ];
+
+        let currentProfessionals = [...mockProfessionals];
+        let selectedProfessional = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfessionals();
+        });
+
+        // Load professionals
+        function loadProfessionals(category = null) {
+            const grid = document.getElementById('professionalsGrid');
+            let professionals = category 
+                ? mockProfessionals.filter(p => p.category === category)
+                : currentProfessionals;
+
+            grid.innerHTML = professionals.map(professional => `
+                <div class="professional-card card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="${professional.image}" alt="${professional.name}" 
+                             class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold">${professional.name}</h3>
+                            <p class="text-gray-600">${professional.profession}</p>
+                            <div class="flex items-center mt-1">
+                                <div class="flex text-yellow-400 text-sm">
+                                    ${generateStars(professional.rating)}
+                                </div>
+                                <span class="text-sm text-gray-500 ml-1">(${professional.reviews})</span>
+                            </div>
+                        </div>
+                        ${professional.verified ? '<i class="fas fa-check-circle text-blue-500"></i>' : ''}
+                    </div>
+                    
+                    <div class="flex items-center text-sm text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        ${professional.location}
+                    </div>
+                    
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                        ${professional.description}
+                    </p>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="badge ${professional.available ? 'badge-success' : 'badge-warning'}">
+                            ${professional.available ? 'Disponible' : 'Ocupado'}
+                        </span>
+                        <button onclick="showContactModal(${professional.id})" 
+                                class="btn-primary text-sm px-4 py-2">
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Generate star rating
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Search functionality
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase();
+            if (query.length < 2) {
+                loadProfessionals();
+                return;
+            }
+            
+            const filtered = mockProfessionals.filter(p => 
+                p.name.toLowerCase().includes(query) ||
+                p.profession.toLowerCase().includes(query) ||
+                p.category.toLowerCase().includes(query) ||
+                p.location.toLowerCase().includes(query)
+            );
+            
+            loadProfessionalsFiltered(filtered);
+        }
+
+        function loadProfessionalsFiltered(professionals) {
+            const grid = document.getElementById('professionalsGrid');
+            
+            if (professionals.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <i class="fas fa-search text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-gray-600">No se encontraron profesionales para tu búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = professionals.map(professional => `
+                <div class="professional-card card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="${professional.image}" alt="${professional.name}" 
+                             class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold">${professional.name}</h3>
+                            <p class="text-gray-600">${professional.profession}</p>
+                            <div class="flex items-center mt-1">
+                                <div class="flex text-yellow-400 text-sm">
+                                    ${generateStars(professional.rating)}
+                                </div>
+                                <span class="text-sm text-gray-500 ml-1">(${professional.reviews})</span>
+                            </div>
+                        </div>
+                        ${professional.verified ? '<i class="fas fa-check-circle text-blue-500"></i>' : ''}
+                    </div>
+                    
+                    <div class="flex items-center text-sm text-gray-600 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        ${professional.location}
+                    </div>
+                    
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                        ${professional.description}
+                    </p>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="badge ${professional.available ? 'badge-success' : 'badge-warning'}">
+                            ${professional.available ? 'Disponible' : 'Ocupado'}
+                        </span>
+                        <button onclick="showContactModal(${professional.id})" 
+                                class="btn-primary text-sm px-4 py-2">
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            loadProfessionals(category);
+            document.getElementById('professionals').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Load more professionals
+        function loadMoreProfessionals() {
+            // In a real app, this would load more from the API
+            alert('Cargando más profesionales...');
+        }
+
+        // Modal functions
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('show');
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerModal').classList.add('show');
+        }
+
+        function showContactModal(professionalId) {
+            selectedProfessional = mockProfessionals.find(p => p.id === professionalId);
+            if (!selectedProfessional) return;
+
+            const infoDiv = document.getElementById('professionalInfo');
+            infoDiv.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <img src="${selectedProfessional.image}" alt="${selectedProfessional.name}" 
+                         class="w-20 h-20 rounded-full object-cover mr-4">
+                    <div>
+                        <h3 class="text-xl font-bold">${selectedProfessional.name}</h3>
+                        <p class="text-gray-600">${selectedProfessional.profession}</p>
+                        <p class="text-sm text-gray-500">${selectedProfessional.location}</p>
+                    </div>
+                </div>
+                <p class="text-gray-600">${selectedProfessional.description}</p>
+            `;
+
+            document.getElementById('contactModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function switchToRegister() {
+            closeModal('loginModal');
+            showRegisterModal();
+        }
+
+        function switchToLogin() {
+            closeModal('registerModal');
+            showLoginModal();
+        }
+
+        // Form handlers
+        function handleLogin(event) {
+            event.preventDefault();
+            // In a real app, this would authenticate with the backend
+            alert('Inicio de sesión simulado. En producción, esto conectaría con la API.');
+            closeModal('loginModal');
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const userType = document.querySelector('input[name="userType"]:checked').value;
+            
+            // In a real app, this would register with the backend
+            alert(`Registro simulado como ${userType}. En producción, esto conectaría con la API.`);
+            closeModal('registerModal');
+        }
+
+        function handleContact(event) {
+            event.preventDefault();
+            
+            if (!selectedProfessional) return;
+            
+            // In a real app, this would send the message to the backend
+            alert(`Mensaje enviado a ${selectedProfessional.name}. En producción, esto conectaría con la API.`);
+            closeModal('contactModal');
+        }
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Additional modal functions (placeholders)
+        function showProfessionalRegisterModal() {
+            alert('Registro de profesionales - En desarrollo');
+        }
+
+        function showPricingModal() {
+            alert('Planes y precios - En desarrollo');
+        }
+
+        function showAboutModal() {
+            alert('Sobre Nosotros - En desarrollo');
+        }
+
+        function showContactModalGeneral() {
+            alert('Contacto - En desarrollo');
+        }
+
+        function showHelpModal() {
+            alert('Ayuda - En desarrollo');
+        }
+
+        function showFAQModal() {
+            alert('FAQ - En desarrollo');
+        }
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>

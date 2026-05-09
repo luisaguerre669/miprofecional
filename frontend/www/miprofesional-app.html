@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiProfesional - Encontrá el profesional que necesitás</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    
+    .category-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .category-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .category-card:hover::before {
+      opacity: 1;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .banner-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    
+    .banner-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .emergency-banner {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .emergency-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+    
+    .search-input {
+      transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+    
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+    }
+    
+    @media (max-width: 768px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .banner-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-gray-900">MiProfesional</span>
+          </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="#" class="text-gray-600 hover:text-gray-900 transition">Cómo funciona</a>
+          <a href="#" class="text-gray-600 hover:text-gray-900 transition">Para profesionales</a>
+          <a href="#" class="text-gray-600 hover:text-gray-900 transition">Contacto</a>
+        </nav>
+        
+        <!-- Auth Buttons -->
+        <div class="flex items-center space-x-4">
+          <button class="hidden sm:block px-4 py-2 text-gray-700 hover:text-gray-900 transition font-medium">
+            Iniciar sesión
+          </button>
+          <button class="btn-primary px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+            Registrarse
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO PRINCIPAL -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img 
+        src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1920&h=1080&fit=crop&crop=entropy&auto=format" 
+        alt="Profesionales trabajando" 
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+      <div class="hero-overlay absolute inset-0"></div>
+    </div>
+    
+    <!-- Content -->
+    <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        Encontrá el profesional que necesitás
+      </h1>
+      <p class="text-xl sm:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
+        Conectamos personas con profesionales en tu zona
+      </p>
+      
+      <!-- Search Bar -->
+      <div class="max-w-2xl mx-auto">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+          </div>
+          <input
+            type="text"
+            placeholder="¿Qué servicio necesitás?"
+            class="search-input w-full pl-12 pr-4 py-4 text-gray-900 bg-white rounded-xl shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 text-lg"
+          />
+          <button class="btn-primary absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORÍAS -->
+  <section class="py-16 sm:py-20 lg:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          Explorá por categorías
+        </h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Encontrá el servicio perfecto para tus necesidades
+        </p>
+      </div>
+      
+      <div class="category-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Servicios del hogar -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1584294249143-aa4a9443e1b5?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Servicios del hogar - Jardinero trabajando" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Servicios del hogar</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reparaciones y mantenimiento -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1621905252509-c736a4a7a5c7?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Reparaciones y mantenimiento - Electricista trabajando" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Reparaciones y mantenimiento</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Salud y bienestar -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Salud y bienestar" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Salud y bienestar</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Belleza y estética -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1560069002-2ce093a6a9c8?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Belleza y estética - Mujer en tratamiento facial" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Belleza y estética</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automotriz y mecánica -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Automotriz y mecánica" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Automotriz y mecánica</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mascotas y cuidados -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1601758228041-f3be275044db?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Mascotas y cuidados" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Mascotas y cuidados</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Construcción y obras -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1541888941276-79c511ec5134?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Construcción y obras" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Construcción y obras</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tecnología y soporte -->
+        <div class="category-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-48">
+            <img 
+              src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?w=400&h=300&fit=crop&crop=entropy&auto=format" 
+              alt="Tecnología y soporte" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4">
+              <h3 class="text-white font-bold text-lg">Tecnología y soporte</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNER DE EMERGENCIA -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="emergency-banner rounded-3xl p-8 lg:p-12 relative overflow-hidden">
+        <div class="relative z-10 grid lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <i data-lucide="alert-triangle" class="w-6 h-6 text-white"></i>
+              </div>
+              <span class="text-white font-bold text-xl">EMERGENCIAS</span>
+            </div>
+            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+              Emergencias 24 horas
+            </h2>
+            <p class="text-white/90 text-lg mb-6">
+              Profesionales disponibles para atender urgencias en cualquier momento del día
+            </p>
+            <button class="btn-primary px-8 py-3 bg-white text-red-600 rounded-lg hover:bg-gray-100 transition font-bold">
+              Solicitar ayuda
+            </button>
+          </div>
+          <div class="relative">
+            <img 
+              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop&crop=entropy&auto=format" 
+              alt="Servicio de emergencia" 
+              class="rounded-2xl w-full h-auto object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNERS PUBLICITARIOS -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          Servicios destacados
+        </h2>
+        <p class="text-lg text-gray-600">
+          Descubrí las mejores promociones y profesionales premium
+        </p>
+      </div>
+      
+      <div class="banner-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Banner 1 -->
+        <div class="banner-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-32">
+            <img 
+              src="https://images.unsplash.com/photo-1605378601515-7ea8bcf9c68a?w=400&h=200&fit=crop&crop=entropy&auto=format" 
+              alt="Promoción especial" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+              OFERTA
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-gray-900 mb-2">Servicios Premium</h3>
+            <p class="text-gray-600 text-sm mb-3">Profesionales verificados con garantía</p>
+            <button class="text-blue-600 hover:text-blue-700 font-medium text-sm">
+              Ver más
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner 2 -->
+        <div class="banner-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-32">
+            <img 
+              src="https://images.unsplash.com/photo-1584476914132-4c9a801e4e3a?w=400&h=200&fit=crop&crop=entropy&auto=format" 
+              alt="Temporada de descuentos" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+              TEMPORADA
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-gray-900 mb-2">Temporada de descuentos</h3>
+            <p class="text-gray-600 text-sm mb-3">Hasta 30% OFF en servicios seleccionados</p>
+            <button class="text-blue-600 hover:text-blue-700 font-medium text-sm">
+              Ver más
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner 3 -->
+        <div class="banner-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-32">
+            <img 
+              src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=200&fit=crop&crop=entropy&auto=format" 
+              alt="Servicios locales" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+              LOCAL
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-gray-900 mb-2">Servicios de tu zona</h3>
+            <p class="text-gray-600 text-sm mb-3">Profesionales cercanos a tu ubicación</p>
+            <button class="text-blue-600 hover:text-blue-700 font-medium text-sm">
+              Ver más
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner 4 -->
+        <div class="banner-card bg-white rounded-2xl overflow-hidden shadow-lg">
+          <div class="relative h-32">
+            <img 
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop&crop=entropy&auto=format" 
+              alt="Nuevos profesionales" 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+              NUEVO
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-gray-900 mb-2">Nuevos profesionales</h3>
+            <p class="text-gray-600 text-sm mb-3">Únete a nuestra comunidad</p>
+            <button class="text-blue-600 hover:text-blue-700 font-medium text-sm">
+              Ver más
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN INFORMATIVA -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+          Conectamos personas con profesionales
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          Para cubrir sus necesidades en cualquier momento
+        </p>
+        
+        <div class="grid md:grid-cols-3 gap-8 mt-12">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="shield-check" class="w-8 h-8 text-blue-600"></i>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Seguridad</h3>
+            <p class="text-gray-600">Profesionales verificados y confiables</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="clock" class="w-8 h-8 text-green-600"></i>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Rapidez</h3>
+            <p class="text-gray-600">Respuesta inmediata a tus solicitudes</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="star" class="w-8 h-8 text-purple-600"></i>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">Calidad</h3>
+            <p class="text-gray-600">Servicios de alta calidad garantizada</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <span class="text-xl font-bold">MiProfesional</span>
+          </div>
+          <p class="text-gray-400">
+            La plataforma que conecta personas con profesionales de confianza
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Para clientes</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition">Cómo funciona</a></li>
+            <li><a href="#" class="hover:text-white transition">Buscar profesionales</a></li>
+            <li><a href="#" class="hover:text-white transition">Publicar trabajo</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Para profesionales</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition">Registrarse</a></li>
+            <li><a href="#" class="hover:text-white transition">Cómo ganar</a></li>
+            <li><a href="#" class="hover:text-white transition">Servicios premium</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Soporte</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition">Ayuda</a></li>
+            <li><a href="#" class="hover:text-white transition">Contacto</a></li>
+            <li><a href="#" class="hover:text-white transition">Términos y condiciones</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; 2024 MiProfesional. Desarrollado por Luis Aguero. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      
+      // Search functionality
+      const searchInput = document.querySelector('input[placeholder="¿Qué servicio necesitás?"]');
+      const searchButton = document.querySelector('.btn-primary');
+      
+      searchButton.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (query) {
+          console.log('Buscando:', query);
+          // Aquí iría la lógica de búsqueda
+        }
+      });
+      
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          searchButton.click();
+        }
+      });
+      
+      // Category cards interaction
+      const categoryCards = document.querySelectorAll('.category-card');
+      categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const categoryName = card.querySelector('h3').textContent;
+          console.log('Categoría seleccionada:', categoryName);
+          // Aquí iría la lógica de filtrado por categoría
+        });
+      });
+      
+      // Emergency banner
+      const emergencyButton = document.querySelector('.emergency-banner button');
+      emergencyButton.addEventListener('click', () => {
+        console.log('Solicitando ayuda de emergencia');
+        // Aquí iría la lógica de emergencia
+      });
+      
+      // Banner cards interaction
+      const bannerCards = document.querySelectorAll('.banner-card');
+      bannerCards.forEach(card => {
+        const button = card.querySelector('button');
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const bannerTitle = card.querySelector('h3').textContent;
+          console.log('Banner seleccionado:', bannerTitle);
+          // Aquí iría la lógica de banners
+        });
+      });
+    });
+  </script>
+</body>
+</html>

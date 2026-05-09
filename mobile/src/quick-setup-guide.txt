@@ -1,0 +1,42 @@
+========================================
+CONFIGURACIÓN RÁPIDA ANDROID STUDIO
+========================================
+
+1. DESCARGAR ANDROID STUDIO
+   - Ve a: https://developer.android.com/studio
+   - Descarga la versión para Windows
+   - Ejecuta el instalador
+   - Selecciona "Standard" installation
+
+2. CONFIGURAR SDK
+   - Abre Android Studio
+   - Tools > SDK Manager
+   - Instala Android 14 (API 34)
+   - Instala Android SDK Build-Tools
+   - Instala Android Emulator
+
+3. CREAR EMULADOR
+   - Tools > Device Manager
+   - Create Virtual Device
+   - Selecciona Pixel 6
+   - System Image: Android 14 (API 34)
+   - RAM: 4096 MB+
+   - Storage: 8 GB+
+
+4. VARIABLES DE ENTORTE
+   - ANDROID_HOME: C:\Users\TU_NOMBRE\AppData\Local\Android\Sdk
+   - Agregar al PATH: %ANDROID_HOME%\platform-tools
+   - Reiniciar PC
+
+5. VERIFICAR
+   - Abrir CMD y ejecutar: adb version
+   - Debe mostrar la versión de ADB
+
+6. EJECUTAR APP
+   - cd d:\proyecto_verdent\MiProfesional\mobile
+   - npx react-native start
+   - npx react-native run-android
+
+========================================
+TIEMPO ESTIMADO: 30-45 minutos
+========================================
