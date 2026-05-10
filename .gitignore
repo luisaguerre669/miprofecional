@@ -33,3 +33,7 @@ Thumbs.db
 .env.example
 node_modules
 
+# Submodules (managed separately)
+MiProfesional/
+.render-remote-check/
+
