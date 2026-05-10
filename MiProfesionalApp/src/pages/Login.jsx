@@ -24,8 +24,7 @@ export default function Login() {
       const response = await apiClient.login(formData);
 
       if (response.accessToken) {
-        apiClient.setToken(response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken || '');
+        apiClient.setSession(response);
         navigate('/app/home');
       } else {
         setError(response.message || 'No se pudo iniciar sesión.');

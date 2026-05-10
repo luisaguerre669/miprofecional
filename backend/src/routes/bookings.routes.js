@@ -97,6 +97,7 @@ router.post("/", async (req, res) => {
       professional: professionalId,
       service,
       date: bookingDate,
+      status: "pending",
       price,
       notes
     });

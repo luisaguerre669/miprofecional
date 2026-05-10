@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { bookingsService } from '../services/api';
+import { bookingsService } from '../services/api.js';
 import { useAuth } from '../hooks/useAuth';
 import { useSocket } from '../hooks/useSocket';
 
@@ -222,8 +222,10 @@ const MyBookingsPage = () => {
             onClick: () => navigate('/dashboard'),
             className: 'text-gray-600 hover:text-gray-900'
           }, '← Volver')
+        ),
+      ),
 
-    React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' },
+      React.createElement('div', { className: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8' },
       // Connection Status Indicator
       React.createElement('div', { className: 'mb-4' },
         React.createElement('div', { 

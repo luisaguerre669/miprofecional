@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Professional = require("../models/Professional");
 const { requireAuth } = require("../middleware/auth");
 
 function signAccessToken(user) {
@@ -29,31 +30,116 @@ function publicUser(user) {
     email: user.email,
     phone: user.phone,
     role: user.role,
-    location: user.location
+    location: user.location,
+    verificationStatus: user.verificationStatus,
+    isVerified: user.isVerified
   };
+}
+
+function normalizeCategory(category) {
+  return String(category || "otros").trim().toLowerCase();
+}
+
+function splitLocation(location) {
+  const parts = String(location || "").split(",").map((part) => part.trim()).filter(Boolean);
+  return {
+    address: String(location || "Sin direccion"),
+    city: parts[0] || "Sin ciudad",
+    state: parts[1] || parts[0] || "Sin provincia",
+    country: parts[2] || "Argentina",
+    coordinates: { type: "Point", coordinates: [0, 0] },
+    serviceRadius: 50
+  };
+}
+
+async function createPendingProfessionalProfile(user, body) {
+  const category = normalizeCategory(body.category || body.profession);
+  const companyType = body.companyType === "empresa" ? "empresa" : "independiente";
+
+  return Professional.create({
+    userId: user._id,
+    category,
+    businessName: body.businessName || body.commercialName || user.name,
+    profession: body.profession || category,
+    specialties: body.specialties || [],
+    description: body.description || `Perfil profesional de ${user.name}`,
+    contact: {
+      phone: user.phone,
+      email: user.email,
+      whatsapp: user.phone
+    },
+    location: splitLocation(user.location),
+    services: [
+      {
+        name: body.serviceName || body.profession || category,
+        description: body.serviceDescription || "Servicio profesional",
+        duration: "60 min",
+        price: Number(body.price || body.hourlyRate || 0),
+        isActive: true
+      }
+    ],
+    pricing: {
+      hourlyRate: Number(body.price || body.hourlyRate || 0),
+      currency: "ARS",
+      paymentMethods: ["cash", "transfer"]
+    },
+    verification: {
+      isVerified: false,
+      verificationStatus: "pending",
+      businessRegistration: {
+        isVerified: false,
+        taxId: body.cuit || undefined,
+        legalForm: companyType
+      },
+      professionalLicense: {
+        isVerified: false,
+        licenseNumber: body.matricula || undefined
+      },
+      reviewProcess: {
+        manualReviewRequired: true,
+        priority: "normal"
+      }
+    },
+    isActive: false,
+    isFeatured: false
+  });
 }
 
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password, phone, role, location } = req.body;
+    const normalizedRole = role === "professional" ? "professional" : "client";
+
+    if (!name || !email || !password || !phone || !location) {
+      return res.status(400).json({ message: "Nombre, email, password, telefono y ubicacion son requeridos" });
+    }
+
+    if (normalizedRole === "professional" && !req.body.category) {
+      return res.status(400).json({ message: "La categoria es requerida para profesionales" });
+    }
 
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "El usuario ya existe" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new User({
       name,
       email,
-      password: hashedPassword,
+      password,
       phone,
-      role: role || "client",
-      location
+      role: normalizedRole,
+      location,
+      verificationStatus: normalizedRole === "professional" ? "pending" : "unverified",
+      isVerified: false
     });
 
     await newUser.save();
+
+    let professional = null;
+    if (normalizedRole === "professional") {
+      professional = await createPendingProfessionalProfile(newUser, req.body);
+    }
 
     const accessToken = signAccessToken(newUser);
     const refreshToken = signRefreshToken(newUser);
@@ -63,6 +149,7 @@ router.post("/register", async (req, res) => {
     res.status(201).json({
       message: "Usuario creado correctamente",
       user: publicUser(newUser),
+      professional,
       accessToken,
       refreshToken
     });
@@ -75,7 +162,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password +refreshToken");
 
     if (!user) {
       return res.status(401).json({ message: "Credenciales invalidas" });
@@ -114,7 +201,7 @@ router.post("/refresh", async (req, res) => {
       refreshToken,
       process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET || "dev_refresh_secret"
     );
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.userId).select("+refreshToken");
 
     if (!user || user.refreshToken !== refreshToken) {
       return res.status(401).json({ message: "Refresh token invalido" });
@@ -198,7 +285,7 @@ router.put("/change-password", requireAuth, async (req, res) => {
       return res.status(400).json({ message: "Password actual incorrecto" });
     }
 
-    req.user.password = await bcrypt.hash(newPassword, 10);
+    req.user.password = newPassword;
     req.user.refreshToken = null;
     await req.user.save();
 

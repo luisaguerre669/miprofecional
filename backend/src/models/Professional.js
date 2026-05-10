@@ -11,7 +11,15 @@ const professionalSchema = new mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-    required: [true, 'Category ID is required']
+    default: null
+  },
+  category: {
+    type: String,
+    required: [true, 'Category is required'],
+    trim: true,
+    lowercase: true,
+    default: 'otros',
+    maxlength: [100, 'Category cannot exceed 100 characters']
   },
   businessName: {
     type: String,
@@ -513,6 +521,7 @@ professionalSchema.virtual('cancellationRate').get(function() {
 // Indexes
 professionalSchema.index({ userId: 1 });
 professionalSchema.index({ categoryId: 1 });
+professionalSchema.index({ category: 1 });
 professionalSchema.index({ 'location.coordinates': '2dsphere' });
 professionalSchema.index({ 'verification.isVerified': 1 });
 professionalSchema.index({ isActive: 1 });
@@ -526,6 +535,7 @@ professionalSchema.index({ createdAt: -1 });
 // Text search index
 professionalSchema.index({
   profession: 'text',
+  category: 'text',
   specialties: 'text',
   description: 'text',
   'location.city': 'text',

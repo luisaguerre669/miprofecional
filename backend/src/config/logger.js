@@ -1,7 +1,12 @@
-const winston = require('winston');
+const fs = require('fs');
 const path = require('path');
+const winston = require('winston');
 
-// Configuración de logger para producción
+const logsDir = path.join(process.cwd(), 'logs');
+if (!fs.existsSync(logsDir)) {
+  fs.mkdirSync(logsDir, { recursive: true });
+}
+
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: winston.format.combine(
@@ -11,45 +16,23 @@ const logger = winston.createLogger({
   ),
   defaultMeta: { service: 'miprofesional-backend' },
   transports: [
-    // Error log file
-    new winston.transports.File({
-      filename: path.join(process.cwd(), 'logs', 'error.log'),
-      level: 'error',
-      maxsize: 10485760, // 10MB
-      maxFiles: 5,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json()
-      )
+    new winston.transports.Console({
+      format: process.env.NODE_ENV === 'production'
+        ? winston.format.combine(winston.format.timestamp(), winston.format.json())
+        : winston.format.combine(winston.format.colorize(), winston.format.simple())
     }),
-    // Combined log file
     new winston.transports.File({
-      filename: path.join(process.cwd(), 'logs', 'combined.log'),
-      maxsize: 10485760, // 10MB
-      maxFiles: 5,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json()
-      )
+      filename: path.join(logsDir, 'error.log'),
+      level: 'error',
+      maxsize: 10485760,
+      maxFiles: 5
+    }),
+    new winston.transports.File({
+      filename: path.join(logsDir, 'combined.log'),
+      maxsize: 10485760,
+      maxFiles: 5
     })
   ]
 });
-
-// En desarrollo, también logs en consola
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.simple()
-    )
-  }));
-}
-
-// Crear directorio de logs si no existe
-const fs = require('fs');
-const logsDir = path.join(process.cwd(), 'logs');
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
-}
 
 module.exports = logger;

@@ -31,6 +31,17 @@ const userSchema = new mongoose.Schema({
     minlength: [6, 'Password must be at least 6 characters long'],
     select: false // Don't return password by default
   },
+  role: {
+    type: String,
+    enum: ['client', 'professional', 'admin'],
+    default: 'client',
+    index: true
+  },
+  refreshToken: {
+    type: String,
+    default: null,
+    select: false
+  },
   avatar: {
     type: String,
     default: null

@@ -6,50 +6,113 @@ const path = require("path");
 const http = require("http");
 const socketHandler = require('./socket/socketHandler');
 
-// � Logging y monitoreo
+// Importar configuración de base de datos mejorada
+const database = require('./config/database');
+
+// Logging y monitoreo
 const logger = require('./config/logger');
 const morgan = require('morgan');
 
-// 🔐 Seguridad y optimización
+// Seguridad y optimización
 const { 
   securityMiddleware, 
   rateLimiter, 
   authRateLimiter, 
   registrationRateLimiter,
   compressionMiddleware,
-  corsMiddleware,
   sanitizeInput 
 } = require('./middleware/security');
 
-// � Cargar .env correctamente (IMPORTANTE si estás en /src)
-dotenv.config({ path: path.join(__dirname, "../.env") });
+// Cargar .env correctamente (IMPORTANTE si estás en /src)
+const envPath = path.join(__dirname, "../.env");
+dotenv.config({ path: envPath });
 
 const app = express();
+app.set("trust proxy", 1);
 
-// 📊 Request logging
+// Variables requeridas
+const REQUIRED_ENV_VARS = ["JWT_SECRET", "JWT_REFRESH_SECRET", "NODE_ENV"];
+
+function validateProductionEnvironment() {
+  // Support both MONGODB_URI and MONGO_URI for compatibility
+  const currentMongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const missing = REQUIRED_ENV_VARS.filter((key) => !process.env[key]);
+
+  if (!currentMongoUri) {
+    missing.push("MONGODB_URI or MONGO_URI");
+  }
+
+  if (process.env.NODE_ENV === "production" && !process.env.CORS_ORIGINS && !process.env.FRONTEND_URL) {
+    missing.push("CORS_ORIGINS");
+  }
+
+  if (missing.length > 0) {
+    const message = `Missing required environment variables: ${missing.join(", ")}`;
+    logger.error(message);
+    console.error("\n❌ " + message);
+    console.error("\n📋 Asegúrate de crear un archivo .env en: " + envPath);
+    console.error("📋 Basado en: " + path.join(__dirname, "../.env.example"));
+    console.error("\n🔧 O ejecuta: node scripts/mongodb-atlas-setup.js");
+    process.exit(1);
+  }
+
+  logger.info("Environment validation passed", {
+    nodeEnv: process.env.NODE_ENV,
+    hasMongoUri: Boolean(currentMongoUri),
+    hasCorsOrigins: Boolean(process.env.CORS_ORIGINS || process.env.FRONTEND_URL),
+    port: process.env.PORT || 3000
+  });
+}
+
+validateProductionEnvironment();
+
+const allowedOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    try {
+      const hostname = new URL(origin).hostname;
+      if (hostname.endsWith(".vercel.app") || hostname === "miprofesional.com" || hostname === "www.miprofesional.com") {
+        return callback(null, true);
+      }
+    } catch {
+      return callback(new Error(`Invalid CORS origin: ${origin}`));
+    }
+    if (process.env.NODE_ENV !== "production" && /^http:\/\/localhost:\d+$/.test(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS origin not allowed: ${origin}`));
+  },
+  credentials: true
+};
+
+// Request logging
 app.use(morgan('combined', { 
   stream: {
     write: (message) => logger.info(message.trim())
   }
 }));
 
-// 🔐 Seguridad y optimización
+// Seguridad y optimización
 app.use(securityMiddleware);
 app.use(compressionMiddleware);
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(sanitizeInput);
 
-// 🚦 Rate limiting global
+// Rate limiting global
 app.use(rateLimiter);
 
-// 📦 Body parser con límites
+// Body parser con límites
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// 🏥 Health checks y monitoreo
+// Health checks y monitoreo
 const healthRoutes = require("./routes/health");
 
 // RUTAS
@@ -60,11 +123,13 @@ const verificationRoutes = require("./routes/verification.routes");
 const professionalRegistrationRoutes = require("./routes/professionalRegistrationRoutes");
 const registerRoutes = require("./routes/registerRoutes");
 
-// 🏥 Health checks (sin rate limiting)
+// Health checks (sin rate limiting)
 app.use("/health", healthRoutes);
+app.use("/api/health", healthRoutes);
 
-// 🔐 Rutas con rate limiting específico
+// Rutas con rate limiting específico
 app.use("/api/auth", authRateLimiter, authRoutes);
+app.use("/auth", authRateLimiter, authRoutes);
 app.use("/api/register", registrationRateLimiter, registerRoutes);
 app.use("/api/professionals", professionalsRoutes);
 app.use("/api/bookings", bookingsRoutes);
@@ -76,32 +141,23 @@ app.get("/", (req, res) => {
   res.send("MiProfesional API funcionando 🚀");
 });
 
-// 🔌 Mongo URI (solo UNA variable, sin duplicados)
-const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
-
-if (!mongoUri) {
-  console.error("❌ ERROR: No se encontró MONGODB_URI en .env");
-  process.exit(1);
-}
-
-// 🚀 ARRANQUE SEGURO CON LOGGING DE PRODUCCIÓN
+// ARRANQUE SEGURO CON LOGGING DE PRODUCCIÓN
 const startServer = async () => {
   try {
-    // Conectar a MongoDB
-    await mongoose.connect(mongoUri);
-    logger.info('✅ MongoDB conectado correctamente', { 
-      database: mongoose.connection.name,
-      host: mongoose.connection.host 
-    });
+    // Conectar a MongoDB usando la configuración mejorada
+    await database.connect();
 
     const PORT = process.env.PORT || 3000;
     const NODE_ENV = process.env.NODE_ENV || 'development';
 
     // Create HTTP server with Socket.IO
     const server = http.createServer(app);
+    const socketOrigins = allowedOrigins.length > 0
+      ? allowedOrigins
+      : [/^https:\/\/.*\.vercel\.app$/, "https://miprofesional.com", "https://www.miprofesional.com"];
     const io = require('socket.io')(server, {
       cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:5173",
+        origin: process.env.NODE_ENV === "production" ? socketOrigins : [...socketOrigins, /^http:\/\/localhost:\d+$/],
         methods: ["GET", "POST"]
       }
     });
@@ -113,10 +169,15 @@ const startServer = async () => {
     setSocketIO(io);
 
     server.listen(PORT, () => {
-      logger.info(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-      logger.info(`🔌 Socket.IO habilitado para notificaciones en tiempo real`);
-      console.log(`📊 Metrics: http://localhost:${PORT}/health/metrics`);
+      logger.info('MiProfesional backend listening', {
+        port: PORT,
+        nodeEnv: NODE_ENV,
+        health: '/health',
+        authBasePath: '/api/auth',
+        rootDirectory: process.cwd()
+      });
+      console.log(`\n🚀 MiProfesional backend listening on port ${PORT}`);
+      console.log(`📊 Health check: http://localhost:${PORT}/health`);
     });
 
     // Graceful shutdown
@@ -157,8 +218,8 @@ const startServer = async () => {
     return server;
 
   } catch (error) {
-    logger.error('❌ Error iniciando servidor:', error);
-    console.error('❌ Error iniciando servidor:', error);
+    // El error ya fue manejado por database.connect()
+    // Solo necesitamos salir del proceso
     process.exit(1);
   }
 };

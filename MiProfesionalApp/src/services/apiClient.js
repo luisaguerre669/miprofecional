@@ -1,21 +1,17 @@
-// API Client for MiProfesional App connected to backend
 import DOMPurify from 'dompurify';
 
-// La URL base de la API debe venir SIEMPRE de las variables de entorno.
-// Si no existe, usamos una ruta relativa basada en el origin actual para web,
-// o un fallback local. NUNCA usar localhost en producción o Capacitor.
+const PRODUCTION_API_URL = 'https://miprofesional-backend.onrender.com/api';
+
 const getBaseUrl = () => {
   if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+    return import.meta.env.VITE_API_URL.replace(/\/$/, '');
   }
-  
-  // Fallback inteligente para web: usar el mismo dominio actual
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
-    return `${window.location.origin}/api`;
+
+  if (import.meta.env.DEV && typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return 'http://localhost:3000/api';
   }
-  
-  // Último recurso (solo funcionará en navegador local, fallará en Capacitor)
-  return 'http://localhost:3000/api';
+
+  return PRODUCTION_API_URL;
 };
 
 const API_BASE_URL = getBaseUrl();
@@ -39,9 +35,28 @@ class ApiClient {
     }
   }
 
+  setSession({ accessToken, refreshToken, user }) {
+    this.setToken(accessToken);
+    if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+    if (user) localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  getCurrentUser() {
+    const rawUser = localStorage.getItem('currentUser');
+    if (!rawUser) return null;
+
+    try {
+      return JSON.parse(rawUser);
+    } catch {
+      localStorage.removeItem('currentUser');
+      return null;
+    }
+  }
+
   removeToken() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('currentUser');
   }
 
   isAuthenticated() {
@@ -51,6 +66,9 @@ class ApiClient {
   sanitizeInput(input) {
     if (typeof input === 'string') {
       return DOMPurify.sanitize(input);
+    }
+    if (Array.isArray(input)) {
+      return input.map((value) => this.sanitizeInput(value));
     }
     if (typeof input === 'object' && input !== null) {
       const sanitized = {};
@@ -62,7 +80,7 @@ class ApiClient {
     return input;
   }
 
-  async processQueue(error, token = null) {
+  processQueue(error, token = null) {
     this.failedQueue.forEach(({ resolve, reject }) => {
       if (error) {
         reject(error);
@@ -82,7 +100,8 @@ class ApiClient {
 
     return this.request('/auth/refresh', {
       method: 'POST',
-      body: { refreshToken }
+      body: { refreshToken },
+      skipAuth: true
     });
   }
 
@@ -94,15 +113,17 @@ class ApiClient {
       ...(options.headers || {})
     };
 
-    if (token) {
+    if (token && !options.skipAuth) {
       headers.Authorization = `Bearer ${token}`;
     }
 
+    const fetchOptions = { ...options };
+    delete fetchOptions.skipAuth;
     const config = {
-      method: options.method || 'GET',
+      method: fetchOptions.method || 'GET',
       headers,
-      signal: AbortSignal.timeout(options.timeout || 10000), // 10s timeout
-      ...options
+      signal: AbortSignal.timeout(fetchOptions.timeout || 10000),
+      ...fetchOptions
     };
 
     if (config.body && typeof config.body !== 'string') {
@@ -115,7 +136,6 @@ class ApiClient {
       const data = contentType.includes('application/json') ? await response.json() : null;
 
       if (response.status === 401 && !endpoint.includes('/auth/refresh')) {
-        // Token expired, try to refresh
         if (!this.isRefreshing) {
           this.isRefreshing = true;
 
@@ -123,8 +143,10 @@ class ApiClient {
             const refreshResponse = await this.refreshToken();
             const newToken = refreshResponse.accessToken;
             this.setToken(newToken);
+            if (refreshResponse.refreshToken) {
+              localStorage.setItem('refreshToken', refreshResponse.refreshToken);
+            }
 
-            // Retry original request with new token
             this.isRefreshing = false;
             this.processQueue(null, newToken);
             return this.request(endpoint, options, retryCount);
@@ -132,21 +154,20 @@ class ApiClient {
             this.isRefreshing = false;
             this.processQueue(refreshError, null);
             this.removeToken();
-            window.location.href = '/login'; // Redirect to login
-            const error = new Error('Session expired. Please login again.');
+            window.dispatchEvent(new CustomEvent('session-expired'));
+            const error = new Error('Sesion expirada. Inicia sesion nuevamente.');
             error.cause = refreshError;
             throw error;
           }
-        } else {
-          // Wait for refresh to complete
-          return new Promise((resolve, reject) => {
-            this.failedQueue.push({ resolve, reject });
-          }).then(() => this.request(endpoint, options, retryCount));
         }
+
+        return new Promise((resolve, reject) => {
+          this.failedQueue.push({ resolve, reject });
+        }).then(() => this.request(endpoint, options, retryCount));
       }
 
       if (!response.ok) {
-        const message = data?.message || `HTTP Error ${response.status}`;
+        const message = data?.message || data?.error || `HTTP Error ${response.status}`;
         const error = new Error(message);
         error.status = response.status;
         error.data = data;
@@ -156,7 +177,6 @@ class ApiClient {
       return data;
     } catch (error) {
       if (error.name === 'TimeoutError' && retryCount < 2) {
-        // Retry on timeout, up to 2 times
         return this.request(endpoint, options, retryCount + 1);
       }
 
@@ -178,8 +198,6 @@ class ApiClient {
       body: credentials
     });
   }
-
-
 
   async getProfile() {
     return this.request('/auth/me');

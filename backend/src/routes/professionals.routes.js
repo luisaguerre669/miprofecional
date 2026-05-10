@@ -108,11 +108,47 @@ router.get("/top-rated", async (req, res) => {
 
 router.post("/", requireAuth, async (req, res) => {
   try {
+    const category = String(req.body.category || req.body.profession || "otros").trim().toLowerCase();
+    const locationText = String(req.body.location || req.user.location || "");
+    const locationParts = locationText.split(",").map((part) => part.trim()).filter(Boolean);
     const professional = await Professional.create({
       ...req.body,
-      user: req.userId,
-      email: req.body.email || req.user.email,
-      phone: req.body.phone || req.user.phone
+      userId: req.userId,
+      category,
+      businessName: req.body.businessName || req.body.name || req.user.name,
+      profession: req.body.profession || category,
+      description: req.body.description || `Perfil profesional de ${req.user.name}`,
+      contact: {
+        phone: req.body.phone || req.user.phone,
+        email: req.body.email || req.user.email,
+        whatsapp: req.body.whatsapp || req.body.phone || req.user.phone
+      },
+      location: req.body.location?.coordinates ? req.body.location : {
+        address: locationText || "Sin direccion",
+        city: locationParts[0] || "Sin ciudad",
+        state: locationParts[1] || locationParts[0] || "Sin provincia",
+        country: locationParts[2] || "Argentina",
+        coordinates: { type: "Point", coordinates: [0, 0] },
+        serviceRadius: 50
+      },
+      services: req.body.services?.length ? req.body.services : [{
+        name: req.body.serviceName || req.body.profession || category,
+        description: req.body.serviceDescription || "Servicio profesional",
+        duration: "60 min",
+        price: Number(req.body.price || req.body.hourlyRate || 0),
+        isActive: true
+      }],
+      pricing: req.body.pricing || {
+        hourlyRate: Number(req.body.price || req.body.hourlyRate || 0),
+        currency: "ARS",
+        paymentMethods: ["cash", "transfer"]
+      },
+      verification: {
+        ...(req.body.verification || {}),
+        isVerified: false,
+        verificationStatus: "pending"
+      },
+      isActive: false
     });
 
     if (req.user.role !== "professional") {

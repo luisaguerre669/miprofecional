@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { professionalsService } from '../services/api';
+import { professionalsService } from '../services/api.js';
 
 const ProfessionalDetailPage = () => {
   const { id } = useParams();

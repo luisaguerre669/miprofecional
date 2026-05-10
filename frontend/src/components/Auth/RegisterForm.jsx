@@ -1,6 +1,6 @@
 // 📝 Componente de Registro - MiProfesional Frontend
 import React, { useState } from 'react';
-import { authService } from '../services/api';
+import { authService } from '../../services/api.js';
 
 const RegisterForm = ({ onRegisterSuccess }) => {
   const [formData, setFormData] = useState({

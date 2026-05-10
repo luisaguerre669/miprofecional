@@ -1,6 +1,6 @@
 // 🔐 Componente de Login - MiProfesional Frontend
 import React, { useState } from 'react';
-import { authService } from '../services/api';
+import { authService } from '../../services/api.js';
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({

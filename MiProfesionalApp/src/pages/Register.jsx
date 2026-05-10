@@ -10,7 +10,7 @@ import './Register.css';
 const registerSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   email: z.string().email('Correo electrónico inválido'),
-  phone: z.string().regex(/^\+?[0-9\s\-\(\)]{10,}$/, 'Teléfono inválido (mínimo 10 dígitos)'),
+  phone: z.string().regex(/^\+?[0-9\s\-()]{10,}$/, 'Teléfono inválido (mínimo 10 dígitos)'),
   password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
   location: z.string().min(3, 'La ubicación es requerida')
 });
@@ -39,8 +39,7 @@ export default function Register() {
       });
 
       if (response.accessToken) {
-        apiClient.setToken(response.accessToken);
-        localStorage.setItem('refreshToken', response.refreshToken || '');
+        apiClient.setSession(response);
         navigate('/app/home');
       } else {
         setError(response.message || 'No se pudo completar el registro.');

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { apiService } from '../services/api';
+import { apiService } from '../services/api.js';
 
 const DashboardPage = () => {
   const { user, logout, isAuthenticated } = useAuth();

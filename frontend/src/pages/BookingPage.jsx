@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { professionalsService, bookingsService } from '../services/api';
+import { professionalsService, bookingsService } from '../services/api.js';
 import { useAuth } from '../hooks/useAuth';
 
 const BookingPage = () => {

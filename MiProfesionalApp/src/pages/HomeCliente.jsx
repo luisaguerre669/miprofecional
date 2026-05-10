@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Search, Star, MapPin, SlidersHorizontal, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BottomNavigation from '../components/BottomNavigation';
-import MapMockup from '../components/MapMockup';
 import apiClient from '../services/apiClient';
 import './HomeCliente.css';
 
@@ -15,6 +14,8 @@ export default function HomeCliente() {
   const [bookingData, setBookingData] = useState({ date: '', time: '', service: '' });
   const [bookingError, setBookingError] = useState('');
   const [bookingSuccess, setBookingSuccess] = useState('');
+  const [loadError, setLoadError] = useState('');
+  const [currentUser, setCurrentUser] = useState(apiClient.getCurrentUser());
 
   const categories = [
     { name: 'Construcción', icon: '👷' },
@@ -26,20 +27,30 @@ export default function HomeCliente() {
   ];
 
   useEffect(() => {
+    apiClient.getProfile()
+      .then((response) => {
+        if (response?.user) {
+          setCurrentUser(response.user);
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+        }
+      })
+      .catch(() => {});
     fetchFeaturedProfessionals();
   }, []);
 
-  const fetchFeaturedProfessionals = async () => {
+  async function fetchFeaturedProfessionals() {
     setLoading(true);
+    setLoadError('');
     try {
       const response = await apiClient.getFeaturedProfessionals(12);
       setProfessionals(response?.data || []);
     } catch (error) {
       console.error('Error cargando profesionales:', error);
+      setLoadError(error.message || 'No se pudieron cargar los profesionales.');
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -49,11 +60,13 @@ export default function HomeCliente() {
     }
 
     setLoading(true);
+    setLoadError('');
     try {
       const response = await apiClient.searchProfessionals({ q: searchText, limit: 20 });
       setProfessionals(response?.data || []);
     } catch (error) {
       console.error('Error buscando profesionales:', error);
+      setLoadError(error.message || 'No se pudo completar la busqueda.');
     } finally {
       setLoading(false);
     }
@@ -135,6 +148,14 @@ export default function HomeCliente() {
       </div>
 
       <main className="app-main-content">
+        {currentUser?.role === 'professional' && (
+          <section className="app-section">
+            <div className="empty-state">
+              Estado de cuenta profesional: {currentUser.verificationStatus === 'verified' ? 'verificado' : 'pendiente de verificacion'}
+            </div>
+          </section>
+        )}
+
         <section className="app-section">
           <div className="section-title">
             <h3>Categorías</h3>
@@ -154,6 +175,8 @@ export default function HomeCliente() {
           <h3>Profesionales Destacados</h3>
           {loading ? (
             <div className="loading-message">Cargando profesionales...</div>
+          ) : loadError ? (
+            <div className="empty-state">{loadError}</div>
           ) : professionals.length === 0 ? (
             <div className="empty-state">No se encontraron profesionales. Intenta otra búsqueda.</div>
           ) : (

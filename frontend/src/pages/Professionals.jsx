@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { professionalsService } from '../services/api';
+import { professionalsService } from '../services/api.js';
 
 const ProfessionalsPage = () => {
   const [professionals, setProfessionals] = useState([]);
