@@ -37,3 +37,6 @@ node_modules
 MiProfesional/
 .render-remote-check/
 
+
+# Local Netlify folder
+.netlify
