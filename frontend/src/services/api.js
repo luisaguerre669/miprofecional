@@ -8,10 +8,11 @@ const API_BASE_PATH = '/api';
 // Crear instancia de axios con configuración base
 const apiClient = axios.create({
   baseURL: `${API_BASE_URL}${API_BASE_PATH}`,
-  timeout: 10000,
+  timeout: 15000, // Aumentado para producción
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: false, // Importante para CORS en producción
 });
 
 // 🔄 Interceptor para añadir token JWT a todas las peticiones
@@ -39,6 +40,17 @@ apiClient.interceptors.response.use(
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
+    }
+    
+    // Manejo específico de errores de CORS
+    if (error.code === 'ERR_NETWORK' || error.message.includes('CORS')) {
+      console.error('Error de CORS o red:', error);
+      return Promise.reject(new Error('Error de conexión con el servidor. Por favor, verifica la configuración.'));
+    }
+    
+    // Manejo de timeout
+    if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+      return Promise.reject(new Error('El servidor tardó demasiado en responder. Intenta nuevamente.'));
     }
     
     // Mensaje de error amigable

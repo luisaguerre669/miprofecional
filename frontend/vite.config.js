@@ -27,5 +27,9 @@ export default defineConfig({
   esbuild: {
     loader: 'jsx',
     include: [/.*\.jsx?$/, /.*\.js$/]
+  },
+  define: {
+    // Configuración para producción
+    __APP_ENV__: JSON.stringify(process.env.NODE_ENV || 'development'),
   }
 });
