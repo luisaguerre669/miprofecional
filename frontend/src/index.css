@@ -1,0 +1,507 @@
+/* Tema oscuro MiProfesional */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: #0a0a0a;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo::before {
+  content: 'MP';
+  background: #10B981;
+  color: #0a0a0a;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.header nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.header nav a {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.header nav a:hover {
+  color: #10B981;
+}
+
+.header nav a.active {
+  color: #10B981;
+  border-bottom: 2px solid #10B981;
+}
+
+.header button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.header button:first-of-type {
+  background: transparent;
+  color: #10B981;
+  border: 1px solid #10B981;
+}
+
+.header button:last-of-type {
+  background: #10B981;
+  color: #0a0a0a;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+  padding: 4rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.hero-main {
+  text-align: left;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.hero h1 span {
+  color: #10B981;
+}
+
+.hero-subtitle {
+  color: #9ca3af;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-tags span {
+  color: #10B981;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Search Box */
+.search-box {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.search-box h3 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.search-input {
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.search-button {
+  background: #10B981;
+  color: #0a0a0a;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Professional Promo */
+.pro-promo {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.pro-promo h3 {
+  color: #10B981;
+  margin-bottom: 0.5rem;
+}
+
+.pro-promo p {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.pro-promo button {
+  background: #10B981;
+  color: #0a0a0a;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Categories */
+.categories-section {
+  padding: 2rem;
+  background: #0a0a0a;
+}
+
+.categories-section h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
+}
+
+.category-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  border-color: #10B981;
+  transform: translateY(-2px);
+}
+
+.category-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.category-name {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* Featured Professionals */
+.featured-section {
+  padding: 2rem;
+  background: #0a0a0a;
+}
+
+.featured-section h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.featured-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.ad-card {
+  min-width: 200px;
+  height: 120px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+  border: 1px solid #2a2a2a;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.ad-card button {
+  background: transparent;
+  border: 1px solid #10B981;
+  color: #10B981;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+/* Map and Urgencies */
+.map-urgencies-section {
+  padding: 2rem;
+  background: #0a0a0a;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.map-container {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 1rem;
+  overflow: hidden;
+  height: 300px;
+}
+
+.urgencies-box {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.urgencies-box h3 {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.urgency-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.urgency-card {
+  background: linear-gradient(135deg, #2a0a0a 0%, #1a0a0a 100%);
+  border: 1px solid #3a1a1a;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.urgency-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.urgency-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.urgency-time {
+  font-size: 0.7rem;
+  color: #ef4444;
+  margin-bottom: 0.5rem;
+}
+
+.urgency-call {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* App Promo */
+.app-promo {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 2rem;
+}
+
+.app-promo h3 {
+  margin-bottom: 1rem;
+}
+
+.store-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.store-button {
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* Reviews */
+.reviews-section {
+  padding: 2rem;
+  background: #0a0a0a;
+}
+
+.reviews-section h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* Footer */
+.footer {
+  background: #0a0a0a;
+  border-top: 1px solid #1a1a1a;
+  padding: 3rem 2rem 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand {
+  max-width: 250px;
+}
+
+.footer-brand .logo {
+  margin-bottom: 1rem;
+}
+
+.footer-brand p {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.footer-column h4 {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-column a {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.footer-column a:hover {
+  color: #10B981;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #1a1a1a;
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .map-urgencies-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .header nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .urgency-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
