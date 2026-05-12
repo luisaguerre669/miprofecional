@@ -130,6 +130,7 @@ const adminRoutes = require("./routes/admin.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
 const feedbackRoutes = require("./routes/feedback.routes");
 const betaRoutes = require("./routes/beta.routes");
+const mercadopagoRoutes = require("./routes/mercadopago.routes");
 const checkExpiredSubscriptions = require("./jobs/subscriptionCheck");
 
 // Health checks (sin rate limiting)
@@ -152,6 +153,7 @@ app.use("/api/analytics", analyticsRoutes);
 app.use("/api/crashes", analyticsRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/beta", betaRoutes);
+app.use("/api/v1/mercadopago", mercadopagoRoutes);
 
 // TEST ROUTE
 app.get("/", (req, res) => {
