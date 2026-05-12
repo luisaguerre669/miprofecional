@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { MercadoPagoConfig, PreApproval } = require('mercadopago');
 const Subscription = require('../models/Subscription');
+const mpConfig = require('../config/mercadopago.config');
 
 const client = new MercadoPagoConfig({ 
-  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN 
+  accessToken: mpConfig.accessToken
 });
 
 const preApproval = new PreApproval(client);

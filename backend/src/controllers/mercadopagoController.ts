@@ -7,8 +7,8 @@ import { logger } from '../utils/logger';
 import crypto from 'crypto';
 
 // Configuración de Mercado Pago
-const MERCADO_PAGO_ACCESS_TOKEN = process.env.MERCADO_PAGO_ACCESS_TOKEN || 'TEST-MERCADO_PAGO_ACCESS_TOKEN';
-const MERCADO_PAGO_WEBHOOK_SECRET = process.env.MERCADO_PAGO_WEBHOOK_SECRET || 'miprofesional-webhook-secret';
+const MERCADO_PAGO_ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN || 'TEST-0000000000000000-000000-00000000000000000000000000000000-000000000';
+const MERCADO_PAGO_WEBHOOK_SECRET = process.env.MERCADOPAGO_WEBHOOK_SECRET || 'miprofesional-webhook-secret';
 const MERCADO_PAGO_API_BASE = 'https://api.mercadopago.com/v1';
 
 // Función para crear preferencia de pago

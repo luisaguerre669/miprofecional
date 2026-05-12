@@ -1,20 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const mercadopago = require('mercadopago');
 const mongoose = require('mongoose');
 const { requireAuth } = require('../middleware/auth');
 const Professional = require('../models/Professional');
 const Payment = require('../models/Payment');
+const mpConfig = require('../config/mercadopago.config');
 
 // Configuración Mercado Pago v2
 const { MercadoPagoConfig, Preference, Payment: MPPayment } = require('mercadopago');
 
 const client = new MercadoPagoConfig({ 
-  accessToken: process.env.MP_ACCESS_TOKEN || 'TEST-8294655979728286-051117-9c97b83f08f88c88e5d0f1778909890a-115201449' 
+  accessToken: mpConfig.accessToken
 });
 
 const preferenceClient = new Preference(client);
 const paymentClient = new MPPayment(client);
+
+// Validar configuración al iniciar
+mpConfig.validateConfig();
 
 // Crear preferencia de pago para suscripción
 router.post('/create-preference', requireAuth, async (req, res) => {
@@ -36,10 +39,6 @@ router.post('/create-preference', requireAuth, async (req, res) => {
       return res.status(400).json({ message: 'Plan no válido' });
     }
 
-    // Usar el backend URL real o localhost
-    const backendUrl = process.env.BACKEND_URL || 'https://miprofesional-backend.onrender.com';
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-
     const preference = {
       items: [
         {
@@ -49,13 +48,9 @@ router.post('/create-preference', requireAuth, async (req, res) => {
           currency_id: 'ARS'
         }
       ],
-      back_urls: {
-        success: `${frontendUrl}/app/subscription/success`,
-        failure: `${frontendUrl}/app/subscription/failure`,
-        pending: `${frontendUrl}/app/subscription/pending`
-      },
+      back_urls: mpConfig.backUrls,
       auto_return: 'approved',
-      notification_url: `${backendUrl}/api/subscriptions/webhook`,
+      notification_url: mpConfig.notificationUrl,
       external_reference: JSON.stringify({
         professionalId: professional._id,
         planType,
