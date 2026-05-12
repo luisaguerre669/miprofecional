@@ -155,6 +155,20 @@ app.use("/api/feedback", feedbackRoutes);
 app.use("/api/beta", betaRoutes);
 app.use("/api/v1/mercadopago", mercadopagoRoutes);
 
+// WEBHOOK MERCADO PAGO - Ruta directa (solución temporal)
+app.post("/api/v1/mercadopago/webhook", (req, res) => {
+  // Responder inmediatamente con 200 OK
+  res.status(200).json({ received: true, timestamp: new Date().toISOString() });
+  
+  // Log del webhook recibido
+  console.log('📡 Webhook Mercado Pago recibido:', {
+    type: req.body.type,
+    action: req.body.action,
+    id: req.body.data?.id,
+    date: new Date().toISOString()
+  });
+});
+
 // TEST ROUTE
 app.get("/", (req, res) => {
   res.send("MiProfesional API funcionando 🚀");
