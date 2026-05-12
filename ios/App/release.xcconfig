@@ -1,0 +1,37 @@
+//
+//  Release.xcconfig
+//  MiProfesional
+//
+//  Configuración de producción para App Store
+//
+
+// Deshabilitar logs en producción
+CAPACITOR_DEBUG = NO
+
+// Configuración de optimización
+SWIFT_OPTIMIZATION_LEVEL = -O
+SWIFT_COMPILATION_MODE = wholemodule
+
+// Strip símbolos de debug
+STRIP_INSTALLED_PRODUCT = YES
+COPY_PHASE_STRIP = YES
+
+// No incluir información de debug
+DEBUG_INFORMATION_FORMAT = 
+
+// Habilitar bitcode (requerido por App Store)
+ENABLE_BITCODE = YES
+
+// Verificación de API deprecated
+SWIFT_TREAT_WARNINGS_AS_ERRORS = NO
+GCC_TREAT_WARNINGS_AS_ERRORS = NO
+
+// Configuración de firma
+CODE_SIGN_IDENTITY = iPhone Distribution
+CODE_SIGN_STYLE = Automatic
+
+// Validación de App Store
+VALIDATE_PRODUCT = YES
+
+// Deployment
+DEPLOYMENT_POSTPROCESSING = YES
