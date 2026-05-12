@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiProfesional - Encuentra Profesionales de Confianza</title>
+    <meta name="description" content="Encuentra y contrata profesionales verificados cerca de ti. Plomeros, electricistas, albañiles y más. Servicio seguro con garantía.">
+    <meta name="keywords" content="profesionales, servicios, plomero, electricista, albañil, contratar, hogar, reparaciones">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #323A45;
+            --secondary: #28a745;
+            --accent: #0E8ECB;
+            --warning: #F5A623;
+            --bg: #f8f9fa;
+            --text: #1A1A1A;
+            --text-muted: #6C757D;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40,167,69,0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #4a5568 100%);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Features */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .feature-card p {
+            color: var(--text-muted);
+        }
+        
+        /* CTA Sections */
+        .cta-section {
+            padding: 4rem 2rem;
+        }
+        
+        .cta-professional {
+            background: linear-gradient(135deg, var(--secondary) 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .cta-client {
+            background: white;
+        }
+        
+        .cta-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .cta-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .cta-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .cta-list li::before {
+            content: '✓';
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .cta-professional .cta-list li::before {
+            color: white;
+        }
+        
+        /* Categories */
+        .categories {
+            padding: 4rem 2rem;
+            background: var(--bg);
+        }
+        
+        .categories-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .category-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Beta Banner */
+        .beta-banner {
+            background: linear-gradient(135deg, var(--warning) 0%, #f0ad4e 100%);
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        
+        .beta-banner p {
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .beta-banner a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            padding: 0.25rem 0;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                gap: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Beta Banner -->
+    <div class="beta-banner">
+        <p>🚀 Estamos en Beta Cerrada. <a href="#registro">Solicita acceso anticipado →</a></p>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Mi<span>Profesional</span></div>
+            <div class="nav-links">
+                <a href="#como-funciona">Cómo funciona</a>
+                <a href="#categorias">Servicios</a>
+                <a href="#profesionales">Soy Profesional</a>
+                <a href="/app" class="btn btn-outline">Iniciar Sesión</a>
+                <a href="/registro" class="btn btn-primary">Registrarse</a>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Encuentra profesionales de confianza cerca de ti</h1>
+            <p>Plomeros, electricistas, albañiles y más. Todos verificados, con reseñas reales y garantía de servicio.</p>
+            <div class="hero-buttons">
+                <a href="/registro?type=client" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    🔍 Buscar Profesional
+                </a>
+                <a href="/registro?type=professional" class="btn" style="background: white; color: var(--primary); font-size: 1.1rem; padding: 1rem 2rem;">
+                    💼 Ofrecer Servicios
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Profesionales</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4.8★</div>
+                    <div class="stat-label">Calificación promedio</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2000+</div>
+                    <div class="stat-label">Servicios completados</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features -->
+    <section class="features" id="como-funciona">
+        <div class="section-title">
+            <h2>¿Por qué elegir MiProfesional?</h2>
+            <p>La forma más segura de contratar servicios profesionales</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Profesionales Verificados</h3>
+                <p>Todos nuestros profesionales pasan por un riguroso proceso de verificación de identidad y antecedentes.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Reseñas Reales</h3>
+                <p>Lee opiniones verificadas de clientes reales. Solo personas que contrataron el servicio pueden dejar reseña.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Pago Seguro</h3>
+                <p>Paga con Mercado Pago. Tu dinero está protegido hasta que confirmes que el trabajo está completado.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>Cerca de Ti</h3>
+                <p>Encuentra profesionales disponibles en tu zona. Usa el mapa para ver quién está más cerca.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Chat Directo</h3>
+                <p>Comunícate directamente con el profesional. Coordina detalles, horarios y presupuestos sin intermediarios.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Garantía de Servicio</h3>
+                <p>Todos los trabajos cuentan con garantía. Si algo no está bien, te ayudamos a resolverlo.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Profesionales -->
+    <section class="cta-section cta-professional" id="profesionales">
+        <div class="cta-content">
+            <div class="cta-text">
+                <h2>¿Eres profesional?</h2>
+                <p>Únete a la plataforma que está revolucionando la forma de encontrar clientes. Más visibilidad, más trabajo, menos complicaciones.</p>
+                
+                <ul class="cta-list">
+                    <li>Registro gratuito</li>
+                    <li>Clientes cerca de ti</li>
+                    <li>Pagos seguros garantizados</li>
+                    <li>Destaca con suscripción premium</li>
+                    <li>Sin comisiones ocultas</li>
+                </ul>
+                
+                <a href="/registro-profesional" class="btn" style="background: white; color: var(--secondary);">
+                    Comenzar como Profesional →
+                </a>
+            </div>
+            
+            <div style="text-align: center;">
+                <div style="font-size: 8rem;">💼</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Categories -->
+    <section class="categories" id="categorias">
+        <div class="section-title">
+            <h2>Categorías de Servicios</h2>
+            <p>Encuentra el profesional que necesitas</p>
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-item">
+                <div class="category-icon">🔧</div>
+                <div class="category-name">Plomería</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">⚡</div>
+                <div class="category-name">Electricidad</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">🔨</div>
+                <div class="category-name">Albañilería</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">🎨</div>
+                <div class="category-name">Pintura</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">🌳</div>
+                <div class="category-name">Jardinería</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">🚚</div>
+                <div class="category-name">Mudanzas</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">🧹</div>
+                <div class="category-name">Limpieza</div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-icon">🪑</div>
+                <div class="category-name">Carpintería</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Clientes -->
+    <section class="cta-section cta-client" id="registro">
+        <div class="cta-content">
+            <div style="text-align: center;">
+                <div style="font-size: 8rem;">🏠</div>
+            </div>
+            
+            <div class="cta-text">
+                <h2 style="color: var(--primary);">¿Necesitas un servicio?</h2>
+                <p style="color: var(--text-muted);">Encuentra al profesional perfecto para tu proyecto. Compara precios, lee reseñas y contrata con confianza.</p>
+                
+                <ul class="cta-list" style="color: var(--text);">
+                    <li>Búsqueda gratuita</li>
+                    <li>Comparación de profesionales</li>
+                    <li>Presupuestos sin compromiso</li>
+                    <li>Garantía de satisfacción</li>
+                    <li>Soporte durante todo el proceso</li>
+                </ul>
+                
+                <a href="/registro" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    Encontrar Profesional →
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>MiProfesional</h4>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 1rem;">La plataforma líder para encontrar profesionales de confianza en tu zona.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="#" style="font-size: 1.5rem;">📘</a>
+                    <a href="#" style="font-size: 1.5rem;">📸</a>
+                    <a href="#" style="font-size: 1.5rem;">🐦</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Enlaces</h4>
+                <a href="#">Cómo funciona</a>
+                <a href="#">Para profesionales</a>
+                <a href="#">Para clientes</a>
+                <a href="#">Preguntas frecuentes</a>
+                <a href="#">Blog</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="/terminos">Términos y condiciones</a>
+                <a href="/privacidad">Política de privacidad</a>
+                <a href="#">Cookies</a>
+                <a href="#">Seguridad</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <a href="mailto:miprofesiona.app@gmail.com">miprofesiona.app@gmail.com</a>
+                <a href="#">Centro de ayuda</a>
+                <a href="#">Reportar problema</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 MiProfesional. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
