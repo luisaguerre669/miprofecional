@@ -169,6 +169,12 @@ app.post("/api/v1/mercadopago/webhook", (req, res) => {
   });
 });
 
+// WEBHOOK ALTERNATIVO - Ruta de respaldo
+app.post("/webhook/mercadopago", (req, res) => {
+  res.status(200).json({ received: true, timestamp: new Date().toISOString() });
+  console.log('📡 Webhook MP (ruta alternativa):', req.body);
+});
+
 // TEST ROUTE
 app.get("/", (req, res) => {
   res.send("MiProfesional API funcionando 🚀");
