@@ -53,7 +53,8 @@ function validateProductionEnvironment() {
     console.error("\n📋 Asegúrate de crear un archivo .env en: " + envPath);
     console.error("📋 Basado en: " + path.join(__dirname, "../.env.example"));
     console.error("\n🔧 O ejecuta: node scripts/mongodb-atlas-setup.js");
-    process.exit(1);
+    // NO hacer process.exit(1) - dejar que Render maneje el error
+    throw new Error(message);
   }
 
   logger.info("Environment validation passed", {
@@ -224,7 +225,7 @@ const startServer = async () => {
       checkExpiredSubscriptions();
     });
 
-    // Graceful shutdown
+    // Graceful shutdown - SOLO en producción y sin forzar exit
     const gracefulShutdown = (signal) => {
       logger.info(`🛑 Recibida señal ${signal}, iniciando graceful shutdown`);
       
@@ -233,38 +234,45 @@ const startServer = async () => {
         
         mongoose.connection.close(false, () => {
           logger.info('🗄️ Conexión MongoDB cerrada');
-          process.exit(0);
+          // No llamamos process.exit() - dejamos que Render maneje el proceso
         });
       });
 
-      // Forzar shutdown después de 10 segundos
+      // Timeout extendido a 30 segundos para Render
       setTimeout(() => {
-        logger.error('⚠️ Forzando shutdown después de timeout');
-        process.exit(1);
-      }, 10000);
+        logger.error('⚠️ Timeout en graceful shutdown, forzando cierre');
+        // Solo en caso extremo
+        if (process.env.NODE_ENV === 'production') {
+          process.exit(1);
+        }
+      }, 30000);
     };
 
     // Capturar señales de shutdown
     process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
     process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-    // Manejo de errores no capturados
+    // Manejo de errores no capturados - NO hacer exit inmediatamente
     process.on('uncaughtException', (error) => {
       logger.error('💥 Uncaught Exception:', error);
-      process.exit(1);
+      // En producción, dejar que el proceso continúe para que Render lo maneje
+      if (process.env.NODE_ENV !== 'production') {
+        process.exit(1);
+      }
     });
 
     process.on('unhandledRejection', (reason, promise) => {
       logger.error('💥 Unhandled Rejection:', { reason, promise });
-      process.exit(1);
+      // No hacer exit - solo loggear
     });
 
     return server;
 
   } catch (error) {
     // El error ya fue manejado por database.connect()
-    // Solo necesitamos salir del proceso
-    process.exit(1);
+    // NO hacer exit - dejar que Render maneje el reinicio
+    logger.error('Error fatal al iniciar servidor:', error);
+    // process.exit(1); - REMOVIDO para evitar reinicios en loop
   }
 };
 
