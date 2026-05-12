@@ -1,5 +1,26 @@
 {
   "appId": "com.miempresa.miprofesional",
   "appName": "MiProfesional",
-  "webDir": "web/dist"
+  "webDir": "MiProfesionalApp/dist",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 3000,
+      "launchAutoHide": true,
+      "backgroundColor": "#0a0a0a",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#0a0a0a"
+    },
+    "Camera": {
+      "saveToGallery": true
+    }
+  },
+  "ios": {
+    "scheme": "MiProfesional",
+    "preferredContentMode": "mobile"
+  }
 }

@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
+  /* Safe Areas iOS */
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --keyboard-height: 0px;
+  
   /* Premium Dark/Light Theme Palette (Uber Style, Matched to Logo & JSON) */
   --color-primary: #323A45; /* Dark Slate Gray */
   --color-secondary: #28a745; /* Green (as requested in JSON) */
@@ -42,6 +49,62 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Safe Areas iOS */
+  padding-top: var(--sat);
+  padding-right: var(--sar);
+  padding-bottom: var(--sab);
+  padding-left: var(--sal);
+  
+  /* Prevenir bounce en iOS */
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keyboard visible - ajustar layout */
+body.keyboard-visible {
+  padding-bottom: var(--keyboard-height);
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* CSS específico para iOS */
+  input, textarea {
+    font-size: 16px; /* Prevenir zoom en focus */
+  }
+  
+  /* Safe area para header fijo */
+  .ios-header {
+    padding-top: max(var(--sat), 20px);
+  }
+  
+  /* Safe area para bottom nav */
+  .ios-bottom-nav {
+    padding-bottom: max(var(--sab), 20px);
+  }
+}
+
+/* Prevenir selección de texto no deseada en iOS */
+* {
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+}
+
+/* Mejoras táctiles */
+button, a {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+/* Animaciones suaves iOS */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
 }
 
 a {
