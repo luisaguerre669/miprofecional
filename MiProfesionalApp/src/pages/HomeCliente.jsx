@@ -148,10 +148,14 @@ export default function HomeCliente() {
       </div>
 
       <main className="app-main-content">
-        {currentUser?.role === 'professional' && (
-          <section className="app-section">
-            <div className="empty-state">
-              Estado de cuenta profesional: {currentUser.verificationStatus === 'verified' ? 'verificado' : 'pendiente de verificacion'}
+        {currentUser?.role === 'professional' && currentUser.subscriptionStatus !== 'active' && (
+          <section className="app-section" style={{ padding: '0 20px' }}>
+            <div className="warning-banner" style={{ background: '#fff4e5', border: '1px solid #ffd580', padding: '15px', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <strong style={{ color: '#663c00' }}>⚠️ Tu perfil no es visible</strong>
+              <p style={{ fontSize: '0.9rem', margin: 0 }}>Debes activar una suscripción para que los clientes puedan encontrarte y contactarte.</p>
+              <button className="btn-accent" onClick={() => navigate('/app/subscription')} style={{ alignSelf: 'flex-start' }}>
+                Activar Suscripción
+              </button>
             </div>
           </section>
         )}
@@ -182,7 +186,7 @@ export default function HomeCliente() {
           ) : (
             <div className="featured-list">
               {professionals.map((pro) => (
-                <div key={pro._id} className="pro-card">
+                <div key={pro._id} className="pro-card" onClick={() => navigate(`/app/professional/${pro._id}`)} style={{ cursor: 'pointer' }}>
                   <div className="pro-avatar-placeholder">{displayName(pro).charAt(0)}</div>
                   <div className="pro-info">
                     <h4>{displayName(pro)}</h4>
@@ -195,7 +199,7 @@ export default function HomeCliente() {
                       <span className="jobs">{pro.location?.city || 'Sin ubicación'}</span>
                     </div>
                     <p className="pro-description">{pro.description || 'Perfil profesional disponible en la plataforma.'}</p>
-                    <button className="btn-primary" type="button" onClick={() => handleBookingSelect(pro)}>
+                    <button className="btn-primary" type="button" onClick={(e) => { e.stopPropagation(); handleBookingSelect(pro); }}>
                       Reservar
                     </button>
                   </div>

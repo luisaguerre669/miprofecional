@@ -194,6 +194,34 @@ const professionalSchema = new mongoose.Schema({
       default: false
     }
   },
+  
+  // Subscription and Visibility - MVP Functional
+  subscriptionStatus: {
+    type: String,
+    enum: ['pending', 'active', 'expired'],
+    default: 'pending',
+    index: true
+  },
+  subscriptionEndDate: {
+    type: Date,
+    default: null
+  },
+  planType: {
+    type: String,
+    enum: ['monthly', 'six_months', 'free'],
+    default: 'free'
+  },
+  mercadoPagoSubscriptionId: {
+    type: String,
+    default: null
+  },
+  visibilityStatus: {
+    type: String,
+    enum: ['public', 'private', 'hidden'],
+    default: 'public',
+    index: true
+  },
+
   verification: {
     // Basic verification (existing fields preserved)
     isVerified: {
@@ -496,6 +524,10 @@ professionalSchema.virtual('fullName').get(function() {
 
 professionalSchema.virtual('averageRating').get(function() {
   return this.stats.rating;
+});
+
+professionalSchema.virtual('reviewsCount').get(function() {
+  return this.stats.reviewCount;
 });
 
 professionalSchema.virtual('isTopRated').get(function() {

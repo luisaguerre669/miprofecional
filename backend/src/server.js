@@ -128,6 +128,7 @@ const reviewRoutes = require("./routes/reviews.routes");
 const profileRoutes = require("./routes/profile.routes");
 const adminRoutes = require("./routes/admin.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
+const feedbackRoutes = require("./routes/feedback.routes");
 const checkExpiredSubscriptions = require("./jobs/subscriptionCheck");
 
 // Health checks (sin rate limiting)
@@ -148,6 +149,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/crashes", analyticsRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 // TEST ROUTE
 app.get("/", (req, res) => {

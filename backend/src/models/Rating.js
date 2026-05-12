@@ -20,6 +20,12 @@ const ratingSchema = new mongoose.Schema({
     ref: 'Booking',
     required: true
   },
+  type: {
+    type: String,
+    enum: ['client-to-professional', 'professional-to-client'],
+    default: 'client-to-professional',
+    required: true
+  },
   
   // Calificación principal
   rating: {
@@ -66,7 +72,11 @@ const ratingSchema = new mongoose.Schema({
       min: 1,
       max: 5,
       default: 0
-    }
+    },
+    seriedad: { type: Number, default: 0 },
+    respeto: { type: Number, default: 0 },
+    cumplimiento: { type: Number, default: 0 },
+    recomendacion: { type: Boolean, default: true }
   },
   
   // Estado y metadata

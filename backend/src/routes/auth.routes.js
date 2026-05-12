@@ -131,7 +131,9 @@ router.post("/register", async (req, res) => {
       role: normalizedRole,
       location,
       verificationStatus: normalizedRole === "professional" ? "pending" : "unverified",
-      isVerified: false
+      isVerified: false,
+      acceptedTerms: req.body.acceptTerms === true || req.body.acceptTerms === "true",
+      acceptedTermsDate: (req.body.acceptTerms === true || req.body.acceptTerms === "true") ? new Date() : null
     });
 
     await newUser.save();

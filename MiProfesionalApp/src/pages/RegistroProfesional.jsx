@@ -15,7 +15,9 @@ export default function RegistroProfesional() {
     category: '',
     companyType: 'independiente',
     cuit: '',
-    matricula: ''
+    matricula: '',
+    description: '',
+    acceptTerms: false
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -186,6 +188,34 @@ export default function RegistroProfesional() {
               />
             </div>
           )}
+          
+          <div className="form-group">
+            <label>Descripción Profesional</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Cuéntanos sobre tu experiencia, servicios y qué te destaca..."
+              rows={4}
+              required
+            />
+          </div>
+
+          <div className="form-group checkbox-group" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '10px' }}>
+            <input
+              type="checkbox"
+              id="acceptTerms"
+              name="acceptTerms"
+              checked={formData.acceptTerms}
+              onChange={(e) => setFormData(prev => ({ ...prev, acceptTerms: e.target.checked }))}
+              required
+              style={{ width: 'auto', marginTop: '4px' }}
+            />
+            <label htmlFor="acceptTerms" style={{ fontSize: '0.85rem', color: '#666', lineHeight: '1.4' }}>
+              Acepto los términos y condiciones. Entiendo que MiProfesional actúa únicamente como plataforma de conexión entre clientes y profesionales.
+            </label>
+          </div>
+
 
           <button type="submit" className="w-100" disabled={loading}>
             {loading ? (

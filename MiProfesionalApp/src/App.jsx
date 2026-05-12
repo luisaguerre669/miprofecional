@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -17,6 +17,8 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
 import { analytics } from './services/analytics';
 import './services/crashReporter';
+import { Onboarding } from './components/Onboarding';
+import { FeedbackWidget } from './components/FeedbackWidget';
 
 // Componente para trackear navegación
 function AnalyticsTracker() {
@@ -30,12 +32,23 @@ function AnalyticsTracker() {
 }
 
 function App() {
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  
   // Inicializar optimizaciones mobile
   useMobileOptimizations();
   
   useEffect(() => {
     // Configurar scroll de inputs en iOS
     setupInputScroll();
+    
+    // Verificar si es primera visita
+    const hasCompletedOnboarding = localStorage.getItem('onboarding_completed');
+    const isFirstVisit = !localStorage.getItem('has_visited');
+    
+    if (isFirstVisit && !hasCompletedOnboarding) {
+      setShowOnboarding(true);
+      localStorage.setItem('has_visited', 'true');
+    }
     
     // Ocultar splash screen nativa después de cargar
     const hideSplash = async () => {
@@ -56,6 +69,11 @@ function App() {
     <ErrorBoundary>
       <Router>
         <AnalyticsTracker />
+        
+        {showOnboarding && (
+          <Onboarding onComplete={() => setShowOnboarding(false)} />
+        )}
+        
         <Routes>
           {/* Rutas Públicas */}
           <Route path="/" element={<Home />} />
@@ -91,6 +109,8 @@ function App() {
           {/* Redirección para rutas no encontradas */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        
+        <FeedbackWidget />
       </Router>
     </ErrorBoundary>
   );

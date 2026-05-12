@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-premium-dark: #050505;
+  --color-premium-card: #0c0c0e;
+  --color-premium-border: #1a1a1c;
+  --color-premium-accent: #00df9a;
+  --color-premium-gold: #d4af37;
+  --color-premium-red: #ff3b3b;
+  
+  --font-inter: "Inter", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-premium-dark text-gray-100 font-inter selection:bg-premium-accent/30 selection:text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-outfit tracking-tight;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+  
+  .glass-premium {
+    @apply bg-[#0c0c0e] backdrop-blur-xl border border-white/5 shadow-2xl;
+  }
+
+  .btn-premium {
+    @apply relative overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .premium-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/60;
+  }
+  
+  .card-premium {
+     @apply bg-[#0c0c0e] border border-white/5 rounded-2xl p-4 hover:border-premium-accent/30 transition-all duration-300;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-premium-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+}
+
+/* Leaflet Dark Theme */
+.leaflet-container {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}

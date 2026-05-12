@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiProfesional - Screenshots Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #323A45;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .device-section {
+            margin-bottom: 60px;
+        }
+        
+        .device-title {
+            font-size: 24px;
+            color: #28a745;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #28a745;
+        }
+        
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .screenshot-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot-frame {
+            position: relative;
+            background: #000;
+            padding: 10px;
+        }
+        
+        /* iPhone 15 Pro Max frame */
+        .iphone-frame {
+            width: 100%;
+            max-width: 430px;
+            margin: 0 auto;
+            border-radius: 50px;
+            overflow: hidden;
+            border: 12px solid #1a1a1a;
+            position: relative;
+        }
+        
+        .iphone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+        
+        /* Android frame */
+        .android-frame {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 10px solid #2a2a2a;
+        }
+        
+        .screenshot-content {
+            width: 100%;
+            aspect-ratio: 9/19.5;
+            background: linear-gradient(135deg, #323A45 0%, #28a745 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .screenshot-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 20;
+        }
+        
+        .screenshot-title {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .screenshot-title h3 {
+            color: #323A45;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .screenshot-title p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Contenido de ejemplo para screenshots */
+        .mock-logo {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .mock-logo span:first-child {
+            color: white;
+        }
+        
+        .mock-logo span:last-child {
+            color: #28a745;
+        }
+        
+        .mock-text {
+            font-size: 16px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        
+        .mock-features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            width: 100%;
+        }
+        
+        .mock-feature {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .mock-button {
+            background: #28a745;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+        
+        .export-info {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .export-info h2 {
+            color: #323A45;
+            margin-bottom: 20px;
+        }
+        
+        .export-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .export-info li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+        
+        .export-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .export-info strong {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 MiProfesional Screenshots</h1>
+        <p class="subtitle">Vista previa para App Store y Google Play</p>
+        
+        <!-- iOS Screenshots -->
+        <div class="device-section">
+            <h2 class="device-title">🍎 iOS - iPhone 15 Pro Max (1290×2796)</h2>
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <div class="screenshot-frame iphone-frame">
+                        <span class="screenshot-number">1</span>
+                        <div class="screenshot-content">
+                            <div class="mock-logo">
+                                <span>Mi</span><span>Profesional</span>
+                            </div>
+                            <p class="mock-text">Encuentra profesionales de confianza cerca de ti</p>
+                            <div class="mock-button">Comenzar</div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Pantalla de Inicio</h3>
+                        <p>Bienvenida atractiva con CTA claro</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame iphone-frame">
+                        <span class="screenshot-number">2</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">🔍 Buscar Profesionales</h3>
+                            <div class="mock-features">
+                                <div class="mock-feature">🔧 Plomeros verificados</div>
+                                <div class="mock-feature">⚡ Electricistas</div>
+                                <div class="mock-feature">🎨 Pintores</div>
+                                <div class="mock-feature">🔨 Albañiles</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Búsqueda por Categoría</h3>
+                        <p>Filtros intuitivos por tipo de servicio</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame iphone-frame">
+                        <span class="screenshot-number">3</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">👤 Perfil Profesional</h3>
+                            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; width: 100%;">
+                                <div style="font-size: 48px; margin-bottom: 10px;">⭐⭐⭐⭐⭐</div>
+                                <p>4.9 (127 reseñas)</p>
+                                <p style="margin-top: 10px; opacity: 0.8;">✓ Verificado por MiProfesional</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Perfil con Reseñas</h3>
+                        <p>Información detallada y valoraciones</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame iphone-frame">
+                        <span class="screenshot-number">4</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">💳 Pago Seguro</h3>
+                            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; width: 100%;">
+                                <p style="font-size: 24px; margin-bottom: 15px;">Mercado Pago</p>
+                                <p>✓ Protección al comprador</p>
+                                <p>✓ Pago con tarjeta o efectivo</p>
+                                <p>✓ Cuotas sin interés</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Sistema de Pagos</h3>
+                        <p>Mercado Pago integrado</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame iphone-frame">
+                        <span class="screenshot-number">5</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">📍 Ubicación GPS</h3>
+                            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; width: 100%;">
+                                <p style="font-size: 48px; margin-bottom: 15px;">🗺️</p>
+                                <p>Profesionales cercanos</p>
+                                <p style="margin-top: 10px; font-size: 14px;">3 disponibles a menos de 2km</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Mapa Interactivo</h3>
+                        <p>Encuentra profesionales cerca de ti</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Android Screenshots -->
+        <div class="device-section">
+            <h2 class="device-title">🤖 Android - Pixel 7 Pro (1080×2400)</h2>
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <div class="screenshot-frame android-frame">
+                        <span class="screenshot-number">1</span>
+                        <div class="screenshot-content">
+                            <div class="mock-logo">
+                                <span>Mi</span><span>Profesional</span>
+                            </div>
+                            <p class="mock-text">Profesionales verificados a un tap</p>
+                            <div class="mock-button">Explorar</div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Bienvenida Android</h3>
+                        <p>Material Design adaptado</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame android-frame">
+                        <span class="screenshot-number">2</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">✨ Premium</h3>
+                            <div class="mock-features">
+                                <div class="mock-feature">⭐ Destaca tu perfil</div>
+                                <div class="mock-feature">📊 Más visibilidad</div>
+                                <div class="mock-feature">💎 Badge verificado</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Suscripciones</h3>
+                        <p>Planes para profesionales</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame android-frame">
+                        <span class="screenshot-number">3</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">💬 Chat</h3>
+                            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; width: 100%;">
+                                <p style="text-align: left; margin-bottom: 10px; opacity: 0.7;">Hola, ¿estás disponible?</p>
+                                <p style="text-align: right; background: #28a745; padding: 10px; border-radius: 10px;">¡Sí! Cuéntame qué necesitas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Mensajería</h3>
+                        <p>Comunicación directa</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame android-frame">
+                        <span class="screenshot-number">4</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">⭐ Reseñas</h3>
+                            <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; width: 100%;">
+                                <p style="font-size: 24px; margin-bottom: 10px;">⭐⭐⭐⭐⭐</p>
+                                <p>"Excelente servicio, muy profesional"</p>
+                                <p style="margin-top: 10px; font-size: 12px;">- María G.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Sistema de Reseñas</h3>
+                        <p>Opiniones verificadas</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-frame android-frame">
+                        <span class="screenshot-number">5</span>
+                        <div class="screenshot-content">
+                            <h3 style="margin-bottom: 20px;">🔐 Seguridad</h3>
+                            <div class="mock-features">
+                                <div class="mock-feature">✓ Verificación de identidad</div>
+                                <div class="mock-feature">✓ Antecedentes check</div>
+                                <div class="mock-feature">✓ Garantía de servicio</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="screenshot-title">
+                        <h3>Profesionales Verificados</h3>
+                        <p>Seguridad garantizada</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Export Info -->
+        <div class="export-info">
+            <h2>📋 Especificaciones para Exportar</h2>
+            <ul>
+                <li><strong>iOS App Store:</strong> 5 screenshots - 1290×2796px (iPhone 15 Pro Max)</li>
+                <li><strong>iOS App Store:</strong> 5 screenshots - 2048×2732px (iPad Pro 12.9")</li>
+                <li><strong>Google Play:</strong> 5 screenshots - 1080×2400px (Pixel 7 Pro)</li>
+                <li><strong>Google Play:</strong> Feature Graphic - 1024×500px</li>
+                <li><strong>Formato:</strong> PNG o JPEG sin transparencia</li>
+                <li><strong>Tamaño máximo:</strong> 8MB por imagen</li>
+            </ul>
+            
+            <h2 style="margin-top: 30px;">🛠️ Herramientas Recomendadas</h2>
+            <ul>
+                <li><strong>Simulador iOS:</strong> Xcode → Device → Screenshot</li>
+                <li><strong>Simulador Android:</strong> Android Studio → Emulator → Screenshot</li>
+                <li><strong>Mockups:</strong> screenshots.pro, placeit.net, or app-mockup.com</li>
+                <li><strong>Edición:</strong> Figma, Sketch, o Photoshop</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
