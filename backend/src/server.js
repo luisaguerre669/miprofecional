@@ -122,6 +122,13 @@ const { router: bookingsRoutes, setSocketIO } = require("./routes/bookings.route
 const verificationRoutes = require("./routes/verification.routes");
 const professionalRegistrationRoutes = require("./routes/professionalRegistrationRoutes");
 const registerRoutes = require("./routes/registerRoutes");
+const subscriptionRoutes = require("./routes/subscription.routes");
+// const paymentRoutes = require("./routes/payments.routes"); // I'll create this one too for general payments if needed
+const reviewRoutes = require("./routes/reviews.routes");
+const profileRoutes = require("./routes/profile.routes");
+const adminRoutes = require("./routes/admin.routes");
+const analyticsRoutes = require("./routes/analytics.routes");
+const checkExpiredSubscriptions = require("./jobs/subscriptionCheck");
 
 // Health checks (sin rate limiting)
 app.use("/health", healthRoutes);
@@ -135,6 +142,12 @@ app.use("/api/professionals", professionalsRoutes);
 app.use("/api/bookings", bookingsRoutes);
 app.use("/api/verification", verificationRoutes);
 app.use("/api/professional-registration", professionalRegistrationRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/crashes", analyticsRoutes);
 
 // TEST ROUTE
 app.get("/", (req, res) => {
@@ -176,8 +189,13 @@ const startServer = async () => {
         authBasePath: '/api/auth',
         rootDirectory: process.cwd()
       });
-      console.log(`\n🚀 MiProfesional backend listening on port ${PORT}`);
+      console.log(`🚀 MiProfesional backend listening on port ${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/health`);
+
+      // Run subscription check every 24 hours
+      setInterval(checkExpiredSubscriptions, 24 * 60 * 60 * 1000);
+      // Run once at startup
+      checkExpiredSubscriptions();
     });
 
     // Graceful shutdown

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -15,6 +15,19 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { useMobileOptimizations, setupInputScroll } from './utils/mobileNavigation';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Capacitor } from '@capacitor/core';
+import { analytics } from './services/analytics';
+import './services/crashReporter';
+
+// Componente para trackear navegación
+function AnalyticsTracker() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    analytics.pageView(location.pathname);
+  }, [location]);
+  
+  return null;
+}
 
 function App() {
   // Inicializar optimizaciones mobile
@@ -42,6 +55,7 @@ function App() {
   return (
     <ErrorBoundary>
       <Router>
+        <AnalyticsTracker />
         <Routes>
           {/* Rutas Públicas */}
           <Route path="/" element={<Home />} />

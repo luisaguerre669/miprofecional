@@ -1,0 +1,300 @@
+/* Premium Loaders - Animaciones de carga profesionales */
+
+/* Spinner Premium */
+.premium-spinner {
+  display: inline-block;
+  position: relative;
+}
+
+.spinner-ring {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  animation: spinner-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border: 3px solid transparent;
+}
+
+.spinner-ring:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.spinner-ring:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.spinner-ring:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes spinner-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Tamaños Spinner */
+.spinner-small {
+  width: 20px;
+  height: 20px;
+}
+
+.spinner-small .spinner-ring {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.spinner-medium {
+  width: 40px;
+  height: 40px;
+}
+
+.spinner-medium .spinner-ring {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+
+.spinner-large {
+  width: 60px;
+  height: 60px;
+}
+
+.spinner-large .spinner-ring {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+/* Colores Spinner */
+.spinner-primary .spinner-ring {
+  border-top-color: var(--color-secondary);
+}
+
+.spinner-white .spinner-ring {
+  border-top-color: #ffffff;
+}
+
+.spinner-accent .spinner-ring {
+  border-top-color: var(--color-accent);
+}
+
+/* Dots Loader */
+.dots-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dots-loader span {
+  width: 10px;
+  height: 10px;
+  background: var(--color-secondary);
+  border-radius: 50%;
+  animation: dots-bounce 1.4s ease-in-out infinite both;
+}
+
+.dots-loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dots-loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dots-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Tamaños Dots */
+.dots-small span {
+  width: 6px;
+  height: 6px;
+}
+
+.dots-large span {
+  width: 14px;
+  height: 14px;
+}
+
+/* Pulse Loader */
+.pulse-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 40px;
+}
+
+.pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  opacity: 0;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.pulse-ring:nth-child(1) {
+  width: 60px;
+  height: 60px;
+  animation-delay: 0s;
+}
+
+.pulse-ring:nth-child(2) {
+  width: 80px;
+  height: 80px;
+  animation-delay: 0.5s;
+}
+
+.pulse-ring:nth-child(3) {
+  width: 100px;
+  height: 100px;
+  animation-delay: 1s;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.pulse-text {
+  margin-top: 80px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  width: 100%;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.progress-primary {
+  background: linear-gradient(90deg, var(--color-secondary), #34ce57);
+}
+
+.progress-accent {
+  background: linear-gradient(90deg, var(--color-accent), #3ab0e2);
+}
+
+/* Full Page Loader */
+.full-page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.full-page-loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo-animation {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.logo-text {
+  color: var(--color-primary);
+}
+
+.logo-text-profesional {
+  color: var(--color-secondary);
+  animation: logo-pulse 2s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.loader-message {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+/* Button Loader */
+.button-with-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.button-loader-text {
+  font-size: 14px;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .full-page-loader {
+    background: #1a1a1a;
+  }
+  
+  .logo-text {
+    color: #ffffff;
+  }
+  
+  .pulse-text,
+  .loader-message {
+    color: #888;
+  }
+}
+
+/* Reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .spinner-ring,
+  .dots-loader span,
+  .pulse-ring,
+  .logo-text-profesional {
+    animation: none;
+  }
+  
+  .pulse-ring {
+    opacity: 0.3;
+  }
+}
